@@ -1,0 +1,4 @@
+Sitemap: https://sculove.github.io/blog/sitemap.xml
+
+User-agent: *
+Allow: /blog
