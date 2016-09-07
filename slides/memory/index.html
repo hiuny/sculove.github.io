@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>Web Application 메모리 사용량 분석 및 debugging tool 활용법</title>
+	<meta name="description" content="JavaScript Memory">
+	<meta name="author" content="sculove. 손찬욱">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<link rel="stylesheet" href="../../reveal.js-3.3.0/css/reveal.css">
+	<link rel="stylesheet" href="../../reveal.js-3.3.0/css/theme/black.css">
+
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="../../reveal.js-3.3.0/lib/css/zenburn.css">
+	<script src="../../reveal.js-3.3.0/custom_head.js"></script>
+</head>
+<body>
+	<div class="reveal">
+        <div class="slides">
+        	<section>
+				<h3>Google DevTools를 이용한</h3>
+		        <h1>Web Application Memory 분석법</h1>
+		        <p>https://developers.google.com/web/tools/chrome-devtools/profile/memory-problems/memory-diagnosis?hl=en</p>
+        	</section>
+        	<section data-markdown>
+	        	<script type="text/templete">
+	        	### memory leak 발생 징후
+	        	 - 페이지가 늦다.
+	        	 - 페이지가 시간이 지날수록 점점 느려진다. (memory bloat)
+	        	   	- 단말기 마다, 환경마다 증상이 다르다. 왜? 하드웨어 사양이 다르니깐. 이때는 기준 단말을 정해서 그걸 기준으로 RAIL을 적용.
+	        	 - 페이지의 동작이 잠시 멈춘다. (GC 발생)
+	        	</script>
+        	</section>
+        	<section data-markdown>
+	        	<script type="text/templete">
+	        	### 1.전체 메모리 사용량 보기
+	        	- Task manager (shift + esc)
+	        	- javascirpt memory (JS Heap)와 memory (DOM)
+	        	</script>
+        	</section>
+        	<section data-markdown>
+	        	<script type="text/template">
+	        	### 2.Timeline으로 메모리 릭 보기
+	        	> GC를 테스트 전후에 한다.
+	        	- Timeline
+	        	- memory checkbok
+	        	```js
+	        	var x = [];
+
+	function grow() {
+	  for (var i = 0; i < 10000; i++) {
+	    document.body.appendChild(document.createElement('div'));
+	  }
+	  x.push(new Array(1000000).join('x'));
+	}
+
+	document.getElementById('grow').addEventListener('click', grow);
+	```
+				</script>
+        	</section>
+        	<section>
+        	속도를 빠르게?
+        	메모리 누수 확인?
+        	</section>
+            <section data-markdown>
+            	<script type="text/template">
+		        - 기준점을 정해라. 현 상황을 파악해라.
+		            => Timeline을 이용하여 파악 : The timeline tells us how long our code took to run
+		            => profile: Profilers show us which functions take the most time.
+
+		        - 문제를 분리해라. 문제를 제어할 수 있도록.
+		        - 빠르게 만들라 `using timeline`과 profiles
+
+
+> JavaScript Profiling In Your Application Link
+Real-world applications are much more complex than this color sorter, but profiling them follows the same basic steps:
+Establish a baseline so that you know where you’re starting from.
+Isolate the problem from any other code running in the application.
+Make it faster in a controlled environment, with frequent timelines and profiles.
+    			</script>
+            </section>
+            <section data-markdown>
+	            <script type="text/template">
+	            ## Profile
+	            - Record JavaScript CPU Profile
+	            	: 좀더 빠르게 만들고 싶다.
+	            	 - Heavy (bottom up) : 많은 CPU를 사용한 함수 찾기
+	            	 > self
+
+Name. The name of the function.
+Self time. How long it took to complete the current invocation of the function, including only the statements in the function itself, not including any functions that it called.
+Total time. The time it took to complete the current invocation of this function and any functions that it called.
+URL. The location of the function defintion in the form of file.js:100 where file.js is the name of the file where the function is defined and 100 is the line number of the definition.
+Aggregated self time. Aggregate time for all invocations of the function across the recording, not including functions called by this function.
+Aggregated total time. Aggregate total time for all invocations of the function, including functions called by this function.
+Not optimized. If the profiler has detected a potential optimization for the function it lists it here.
+
+	            - Take Heap Snapshot
+	            	- JavaScript Object
+	            	- related DOM nodes
+	            - Record Allocation Timeline
+	            	- isolate memory leaks
+	            - Record Allocation Profile
+	            	- JavaScript functions
+	            </script>
+            </section>
+            <section data-markdown>
+	            <script type="text/template">
+	            ## cosole과 timeline
+
+	            </script>
+            </section>
+			<section data-markdown>
+            	<script type="text/template">
+		        - 느린 지점을 찾아라.
+		        - 환경을 일치시켜라.
+		        - 분석을 반복해라. 측정 - 분석 - 개선
+    			</script>
+            </section>
+            <section>
+            http://www.html5rocks.com/en/tutorials/memory/effectivemanagement/
+            </section>
+        </div>
+    </div>
+	<script src="../../reveal.js-3.3.0/lib/js/head.min.js"></script>
+	<script src="../../reveal.js-3.3.0/js/reveal.js"></script>
+	<script src="../../reveal.js-3.3.0/custom_init.js"></script>
+</body>
+</html>
