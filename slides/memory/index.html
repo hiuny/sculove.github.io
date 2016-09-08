@@ -47,21 +47,19 @@
 	        	<script type="text/template">
 	        	### 2.Timeline으로 메모리 릭 보기
 	        	> GC를 테스트 전후에 한다.
-	        	- Timeline
+	        	- Timeline : 메모리 릭은 계단형 상승.
 	        	- memory checkbok
-	        	```js
-	        	var x = [];
 
-	function grow() {
-	  for (var i = 0; i < 10000; i++) {
-	    document.body.appendChild(document.createElement('div'));
-	  }
-	  x.push(new Array(1000000).join('x'));
-	}
-
-	document.getElementById('grow').addEventListener('click', grow);
-	```
+	        	an analysis of the code compared with the screenshot
+	        	heap 스냅샷을 뜬다.-> detached DOM
+	        	allocation timeline 이용.
 				</script>
+        	</section>
+        	<section>
+        	메모리 분석
+        	- Object size : 메모리는 그래프로 나타냄.
+        	  - Object에 직접적으로 연결된.
+Shallow Size and Retained Size,
         	</section>
         	<section>
         	속도를 빠르게?

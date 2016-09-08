@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <h1>Example: Watch the memory grow</h1>
+  <ol>
+    <li>Open DevTools</li>
+
+    <li>Select Timeline Tab</li>
+
+    <li>Select Memory</li>
+
+    <li>Record</li>
+
+    <li>Push The start Button</li>
+
+  </ol><button onclick="start()">The start Button</button>
+  <button onclick="stop()">The stop Button</button>
+
+  <div id="nodes" style="display:none"></div>
+<script>
+var running = true;
+var x = [];
+function createSomeNodes() {
+    var div,
+        buf,
+        i = 100,
+        frag = document.createDocumentFragment();
+    for (; i > 0; i--) {
+        div = document.createElement('div');
+        buf = document.createTextNode(i + ' - ' + new Date().toTimeString());
+        div.appendChild(buf);
+        frag.appendChild(div);
+    }
+    document.getElementById('nodes').appendChild(frag);
+}
+function start() {
+	running = true;
+	console.info("start...");
+	grow();
+}
+
+function grow() {
+	if(running) {
+		console.log("running");
+		x.push(new Array(1000000).join('x'));
+	    createSomeNodes();
+	    setTimeout(grow, 1000);
+	}
+}
+
+function stop() {
+	console.info("stop...");
+	running = false;
+}
+</script>
+</body>
+</html>
