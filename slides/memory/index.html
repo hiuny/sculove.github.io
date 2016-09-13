@@ -14,9 +14,9 @@
 
 	<link rel="stylesheet" href="../../reveal.js-3.3.0/css/reveal.css">
 	<link rel="stylesheet" href="../../reveal.js-3.3.0/css/theme/black.css">
-
+	<link rel="stylesheet" href="../../reveal.js-3.3.0/custom.css">
 	<!-- Theme used for syntax highlighting of code -->
-	<link rel="stylesheet" href="../../reveal.js-3.3.0/lib/css/zenburn.css">
+	<link rel="stylesheet" href="../../reveal.js-3.3.0/lib/css/darkula.css">
 	<script src="../../reveal.js-3.3.0/custom_head.js"></script>
 </head>
 <body>
@@ -27,15 +27,158 @@
 		        <h1>Web Application Memory 분석법</h1>
 		        <p>https://developers.google.com/web/tools/chrome-devtools/profile/memory-problems/memory-diagnosis?hl=en</p>
         	</section>
-        	<section data-markdown>
-	        	<script type="text/templete">
-	        	### memory leak 발생 징후
-	        	 - 페이지가 늦다.
-	        	 - 페이지가 시간이 지날수록 점점 느려진다. (memory bloat)
-	        	   	- 단말기 마다, 환경마다 증상이 다르다. 왜? 하드웨어 사양이 다르니깐. 이때는 기준 단말을 정해서 그걸 기준으로 RAIL을 적용.
-	        	 - 페이지의 동작이 잠시 멈춘다. (GC 발생)
-	        	</script>
+        	<section data-background="#1A3819">
+	        	<h2>Memory Leak</h2>
+	        	<blockquote>a memory leak is a type of <strong>resource leak</strong> that occurs when a computer program incorrectly manages memory allocations in such a way that <em>memory which is no longer needed is not released</em></blockquote>
+	        </section>
+	        <section>
+	        	<h2>Memory Leak 징후</h2>
+	        	<ul>
+	        		<li class="fragment">페이지가 느리다.</li>
+	        	 	<li class="fragment">페이지가 시간이 지날수록 점점 느려진다.</li>
+	        	   	<li class="fragment">단말기 마다, 환경마다 증상의 차이가 크다.</li>
+	        	 	<li class="fragment">페이지의 동작이 잠시 멈춘다.</li>
+	        	 	<li class="fragment">브라우저가 죽는다(crashed)
+	        	 	</li>
+	        	</ul>
         	</section>
+	        <section>
+	        	<h2>왜 Memory leak은 발생하는가?</h2>
+	        	<h3 class="fragment"><strong>잘못된 개발 습관</strong></h3>
+        	</section>
+        	<section>
+        		<h2>전 별로 신경쓰지 않았는데...</h2>
+        		<h2>잘 되던데요 ^^</h2>
+        		<h3 class="fragment"><em>네. 맞습니다</em></h3>
+        	</section>
+        	<section>
+        		<h2>모던 브라우저는 <strong>Reloading</strong>시 메모리를 효과적으로 릴리즈합니다.</h2>
+        	</section>
+        	<section>
+        		<h2>하지만, 당신이 개발하는 서비스가 <em>SPA</em>라면 상황은 달라집니다</h2>
+        		<small>SPA : Single-Page Application</small>
+        	</section>
+        	<section>
+        		<h1>Memory</h1>
+        	</section>
+        	<section>
+        		<h3>Think of memory as a graph</h3>
+        		<img src="./images/thinkgraph.png"/>
+        	</section>
+        	<section>
+        		<h2>Types</h2>
+        		<ul>
+        			<li>
+        				<div>Primitive types : Number, Boolen, String</div>
+        				<em class="fragment">다른 값의 reference를 갖을 수 없음</em>
+        			</li>
+
+        			<li class="fragment">
+						<div>Object(key-value), Array<i>(number key-value)</i></div>
+        				<em class="fragment">다른 값의 reference를 가짐</em>
+        				<div><strong class="fragment">Memory leak 관리 대상</strong></div>
+        			</li>
+        		</ul>
+        	</section>
+        	<section>
+        		<img src="./images/dontcontrol.png"/>
+        		<p>Root는 <em>window</em> 객체</p>
+        		<p>Object는 <em>Object와 Array</em></p>
+        	</section>
+    		<section>
+        		<h3>GC (Garbage Collection)</h3>
+        		<img src="./images/gc.png"/>
+        		<p class="fragment"><strong>Root와 연결이 끊어진 node</strong>의 메모리를 해제하는 작업</p>
+        	</section>
+    		<section>
+        		<h3>Memory Leak을 제거 하는 방법</h3>
+        		<p>사용한 <em>Object, Array</em>의 Reference가<p>
+        		<p><strong>Root와 연결되지 않도록 한다.</strong></p>
+        	</section>
+        	<section data-background="#1A3819">
+	        	<h3>Memory Leak이 발생 할 수 있는</h3>
+	        	<h2>개발 패턴</h2>
+	        </section>
+			<section>
+	        	<section>
+		        	<h2>1. Timers</h2>
+		        </section>
+				<section>
+					<pre><code data-noescape>var buggyObject = {
+	callAgain: function () {
+		<mark>var ref = this;</mark>
+		var val = setTimeout(function () {
+			console.log('Called again: '
+				+ new Date().toTimeString());
+			ref.callAgain();
+		}, 1000);
+	}
+};
+
+buggyObject.callAgain();
+<mark class="fragment">buggyObject = null; // buggyObject reference 제거</mark>
+</code></pre>
+					<p class="fragment">timer 내부에서 buggyObject reference가 여전히 존재함</p>
+				</section>
+<section>
+					<pre><code data-noescape>var buggyObject = {
+	callAgain: function () {
+		<mark>function loopFunc() {</mark>
+			console.log('Called again: '
+				+ new Date().toTimeString());
+			setTimeout(loopFunc, 1000);
+		<mark>}</mark>
+		<mark>setTimeout(loopFunc, 1000);</mark>
+	}
+};
+
+buggyObject.callAgain();
+buggyObject = null; // buggyObject reference 제거
+</code></pre>
+					<p class="fragment">timer 내부에서 buggyObject reference를 사용하지 않도록 수정</p>
+				</section>
+	        </section>
+			<section>
+	        	<section>
+		        	<h2>2. Closures</h2>
+		        </section>
+				<section>
+					<pre><code data-noescape>
+</code></pre>
+					<p class="fragment">timer 내부에서 buggyObject reference가 여전히 존재함</p>
+				</section>
+<section>
+					<pre><code data-noescape>
+</code></pre>
+					<p class="fragment">timer 내부에서 buggyObject reference를 사용하지 않도록 수정</p>
+				</section>
+	        </section>
+			<section>
+	        	<section>
+		        	<h2>3. DOM leaks</h2>
+		        </section>
+	        </section>
+			<section>
+	        	<section>
+		        	<h2>4. Unbind event listeners</h2>
+		        </section>
+	        </section>
+			<section>
+	        	<section>
+		        	<h2>5. 기타등등</h2>
+		        </section>
+	        </section>
+
+        	<section>
+        		<h2>Shallow Size</h2>
+        		<p>array, string와 같이 직접적으로 메모리를 점유하고 있는 JavaScript 객체</p>
+        	</section>
+
+        	<section>
+
+        	</section>
+
+
         	<section data-markdown>
 	        	<script type="text/templete">
 	        	### 1.전체 메모리 사용량 보기
