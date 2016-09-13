@@ -97,7 +97,7 @@
         	</section>
         	<section data-background="#1A3819">
 	        	<h3>Memory Leak이 발생 할 수 있는</h3>
-	        	<h2>개발 패턴</h2>
+	        	<h2>4가지 개발 패턴</h2>
 	        </section>
 			<section>
 	        	<section>
@@ -163,31 +163,23 @@ buggyObject = null; // buggyObject reference 제거
 		        	<h2>4. Unbind event listeners</h2>
 		        </section>
 	        </section>
-			<section>
-	        	<section>
-		        	<h2>5. 기타등등</h2>
-		        </section>
+
+			<section data-background="#1A3819">
+	        	<h3>Chrome DevTools를 이용한</h3>
+	        	<h2>Memory Leak 분석하기</h2>
 	        </section>
-
-        	<section>
-        		<h2>Shallow Size</h2>
-        		<p>array, string와 같이 직접적으로 메모리를 점유하고 있는 JavaScript 객체</p>
-        	</section>
-
-        	<section>
-
-        	</section>
-
-
-        	<section data-markdown>
-	        	<script type="text/templete">
+	        <section>
+	        분석하는 방법
+		        - 느린 지점을 찾아라.
+		        - 환경을 일치시켜라.
+		        - 분석을 반복해라. 측정 - 분석 - 개선
+	        </section>
+	        <section data-markdown>
 	        	### 1.전체 메모리 사용량 보기
 	        	- Task manager (shift + esc)
 	        	- javascirpt memory (JS Heap)와 memory (DOM)
-	        	</script>
         	</section>
         	<section data-markdown>
-	        	<script type="text/template">
 	        	### 2.Timeline으로 메모리 릭 보기
 	        	> GC를 테스트 전후에 한다.
 	        	- Timeline : 메모리 릭은 계단형 상승.
@@ -196,18 +188,23 @@ buggyObject = null; // buggyObject reference 제거
 	        	an analysis of the code compared with the screenshot
 	        	heap 스냅샷을 뜬다.-> detached DOM
 	        	allocation timeline 이용.
-				</script>
         	</section>
+
         	<section>
-        	메모리 분석
+        	메모리 분석 Profile
         	- Object size : 메모리는 그래프로 나타냄.
         	  - Object에 직접적으로 연결된.
 Shallow Size and Retained Size,
         	</section>
+
+
         	<section>
-        	속도를 빠르게?
-        	메모리 누수 확인?
+        		<h2>Shallow Size</h2>
+        		<p>array, string와 같이 직접적으로 메모리를 점유하고 있는 JavaScript 객체</p>
         	</section>
+
+
+
             <section data-markdown>
             	<script type="text/template">
 		        - 기준점을 정해라. 현 상황을 파악해라.
@@ -250,18 +247,11 @@ Not optimized. If the profiler has detected a potential optimization for the fun
 	            	- JavaScript functions
 	            </script>
             </section>
-            <section data-markdown>
-	            <script type="text/template">
-	            ## cosole과 timeline
-
-	            </script>
-            </section>
-			<section data-markdown>
-            	<script type="text/template">
-		        - 느린 지점을 찾아라.
-		        - 환경을 일치시켜라.
-		        - 분석을 반복해라. 측정 - 분석 - 개선
-    			</script>
+            <section>
+            1.메모리 Leak과 제거하는 원리.
+            2.MEMORY LEAK이 발생 할 수 있는
+개발 패턴 4가지
+			3.Chrome DevTool을 이용한 메모리 릭 분석
             </section>
             <section>
             http://www.html5rocks.com/en/tutorials/memory/effectivemanagement/

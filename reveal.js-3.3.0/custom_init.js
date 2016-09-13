@@ -97,8 +97,12 @@ Reveal.initialize({
         { src: '../../reveal.js-3.3.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
 
         // Interpret Markdown in <section> elements
-        { src: '../../reveal.js-3.3.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-        { src: '../../reveal.js-3.3.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: '../../reveal.js-3.3.0/plugin/markdown/marked.js',
+        // condition: function() { return !!document.querySelector( '[data-markdown]' ); }
+        },
+        { src: '../../reveal.js-3.3.0/plugin/markdown/markdown.js',
+        // condition: function() { return !!document.querySelector( '[data-markdown]' ); }
+        },
 
         // Syntax highlight for <code> elements
         { src: '../../reveal.js-3.3.0/plugin/highlight/highlight.pack.js', async:true, callback: function() { hljs.initHighlightingOnLoad(); }
