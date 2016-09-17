@@ -143,12 +143,22 @@ buggyObject = null; // buggyObject reference 제거
 		        	<h2>2. Closures</h2>
 		        </section>
 				<section>
-					<pre><code data-noescape>
+					<pre><code data-noescape>var a = function () {
+  var largeStr = new Array(1000000).join('x');
+  return function () {
+     return largeStr;
+  };
+}();
 </code></pre>
-					<p class="fragment">timer 내부에서 buggyObject reference가 여전히 존재함</p>
+					<p class="fragment">반환된 함수는 largeStr을 closures하여, largeStr 변수의 레퍼런스가 존재함. </p>
 				</section>
 <section>
-					<pre><code data-noescape>
+					<pre><code data-noescape>var a = function () {
+  <mark>var largeStr = new Array(1000000).join('x');</mark>
+  return function () {
+     return largeStr;
+  }; // 함수를 반환
+}();
 </code></pre>
 					<p class="fragment">timer 내부에서 buggyObject reference를 사용하지 않도록 수정</p>
 				</section>
@@ -157,12 +167,32 @@ buggyObject = null; // buggyObject reference 제거
 	        	<section>
 		        	<h2>3. DOM leaks</h2>
 		        </section>
-	        </section>
+	        	<section>
+	        		DOM nodes that are not reachable from the page’s DOM tree, but are still referenced by a JavaScript object.
+	        	</section>
+	        	<section>
+	        		<pre><code data-noescape>var select = document.querySelector;
+var treeRef = select("#tree");
+var leafRef = select("#leaf");
+var body = select("body");
+
+<mark class="fragment">body.removeChild(treeRef);</mark>
+
+<mark class="fragment">//#tree can't be GC yet due to treeRef</mark>
+
+<mark class="fragment">treeRef = null;</mark>
+
+<mark class="fragment">//#tree can't be GC yet, due to indirect reference from leafRef</mark>
+
+<mark class="fragment">leafRef = null;</mark>
+</code></pre>
+						</section>
+	    </section>
 			<section>
 	        	<section>
 		        	<h2>4. Unbind event listeners</h2>
 		        </section>
-	        </section>
+      </section>
 
 			<section data-background="#1A3819">
 	        	<h3>Chrome DevTools를 이용한</h3>
