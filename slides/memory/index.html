@@ -141,26 +141,21 @@ buggyObject = null; // buggyObject reference 제거
 			<section>
 	        	<section>
 		        	<h2>2. Closures</h2>
+		        	<blockquote>외부함수의 변수에 접근할 수 있는 내부 함수</blockquote>
 		        </section>
 				<section>
 					<pre><code data-noescape>var a = function () {
   var largeStr = new Array(1000000).join('x');
-  return function () {
-     return largeStr;
-  };
+  return <mark>function () {</mark>
+     return <mark class="fragment highlight-red">largeStr;</mark>
+  <mark>};</mark>
 }();
 </code></pre>
-					<p class="fragment">반환된 함수는 largeStr을 closures하여, largeStr 변수의 레퍼런스가 존재함. </p>
+					<p class="fragment">반환된 closure는 largeStr 변수의 레퍼런스가 가지고 있음</p>
 				</section>
-<section>
-					<pre><code data-noescape>var a = function () {
-  <mark>var largeStr = new Array(1000000).join('x');</mark>
-  return function () {
-     return largeStr;
-  }; // 함수를 반환
-}();
-</code></pre>
-					<p class="fragment">timer 내부에서 buggyObject reference를 사용하지 않도록 수정</p>
+				<section>
+					Closure는 간결한 프로그래밍을 할수 있습니다.
+					하지만, <em>무분별한 Closure</em>는 Memory leak을 유발합니다.
 				</section>
 	        </section>
 			<section>
