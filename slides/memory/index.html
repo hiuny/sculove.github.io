@@ -20,91 +20,89 @@
 	<script src="../../reveal.js-3.3.0/custom_head.js"></script>
 </head>
 <body>
-	<div class="reveal">
-        <div class="slides">
-        	<section>
-				<h3>Google DevTools를 이용한</h3>
-		        <h1>Web Application Memory 분석법</h1>
-		        <p>https://developers.google.com/web/tools/chrome-devtools/profile/memory-problems/memory-diagnosis?hl=en</p>
-        	</section>
-        	<section data-background="#1A3819">
-	        	<h2>Memory Leak</h2>
-	        	<blockquote>a memory leak is a type of <strong>resource leak</strong> that occurs when a computer program incorrectly manages memory allocations in such a way that <em>memory which is no longer needed is not released</em></blockquote>
-	        </section>
-	        <section>
-	        	<h2>Memory Leak 징후</h2>
-	        	<ul>
-	        		<li class="fragment">페이지가 느리다.</li>
-	        	 	<li class="fragment">페이지가 시간이 지날수록 점점 느려진다.</li>
-	        	   	<li class="fragment">단말기 마다, 환경마다 증상의 차이가 크다.</li>
-	        	 	<li class="fragment">페이지의 동작이 잠시 멈춘다.</li>
-	        	 	<li class="fragment">브라우저가 죽는다(crashed)
-	        	 	</li>
-	        	</ul>
-        	</section>
-	        <section>
-	        	<h2>왜 Memory leak은 발생하는가?</h2>
-	        	<h3 class="fragment"><strong>잘못된 개발 습관</strong></h3>
-        	</section>
-        	<section>
-        		<h2>전 별로 신경쓰지 않았는데...</h2>
-        		<h2>잘 되던데요 ^^</h2>
-        		<h3 class="fragment"><em>네. 맞습니다</em></h3>
-        	</section>
-        	<section>
-        		<h2>모던 브라우저는 <strong>Reloading</strong>시 메모리를 효과적으로 릴리즈합니다.</h2>
-        	</section>
-        	<section>
-        		<h2>하지만, 당신이 개발하는 서비스가 <em>SPA</em>라면 상황은 달라집니다</h2>
-        		<small>SPA : Single-Page Application</small>
-        	</section>
-        	<section>
-        		<h1>Memory</h1>
-        	</section>
-        	<section>
-        		<h3>Think of memory as a graph</h3>
-        		<img src="./images/thinkgraph.png"/>
-        	</section>
-        	<section>
-        		<h2>Types</h2>
-        		<ul>
-        			<li>
-        				<div>Primitive types : Number, Boolen, String</div>
-        				<em class="fragment">다른 값의 reference를 갖을 수 없음</em>
-        			</li>
+<div class="reveal">
+<div class="slides">
+	<section>
+		<h3>Google DevTools를 이용한</h3>
+	    <h1>Web Application Memory 분석법</h1>
+	</section>
+	<section data-background="#1A3819">
+		<h2>Memory Leak</h2>
+		<blockquote>a memory leak is a type of <strong>resource leak</strong> that occurs when a computer program incorrectly manages memory allocations in such a way that <em>memory which is no longer needed is not released</em></blockquote>
+	</section>
+	<section>
+		<h2>Memory Leak 징후</h2>
+		<ul>
+			<li class="fragment">페이지가 느리다.</li>
+		 	<li class="fragment">페이지가 시간이 지날수록 점점 느려진다.</li>
+		   	<li class="fragment">단말기 마다, 환경마다 증상의 차이가 크다.</li>
+		 	<li class="fragment">페이지의 동작이 잠시 멈춘다.</li>
+		 	<li class="fragment">브라우저가 죽는다(crashed)
+		 	</li>
+		</ul>
+	</section>
+	<section>
+		<h2>왜 Memory leak은 발생하는가?</h2>
+		<h3 class="fragment"><strong>잘못된 개발 습관</strong></h3>
+	</section>
+	<section>
+		<h2>전 별로 신경쓰지 않았는데...</h2>
+		<h2>잘 되던데요 ^^</h2>
+		<h3 class="fragment"><em>네. 맞습니다</em></h3>
+	</section>
+	<section>
+		<h2>모던 브라우저는 <strong>Reloading</strong>시 메모리를 효과적으로 릴리즈합니다.</h2>
+	</section>
+	<section>
+		<h2>하지만, 당신이 개발하는 서비스가 <em>SPA</em>라면 상황은 달라집니다</h2>
+		<small>SPA : Single-Page Application</small>
+	</section>
+	<section>
+		<h1>Memory</h1>
+	</section>
+	<section>
+		<h3>Think of memory as a graph</h3>
+		<img src="./images/thinkgraph.png"/>
+	</section>
+	<section>
+		<h2>Types</h2>
+		<ul>
+			<li>
+				<div>Primitive types : Number, Boolen, String</div>
+				<em class="fragment">다른 값의 reference를 갖을 수 없음</em>
+			</li>
 
-        			<li class="fragment">
-						<div>Object(key-value), Array<i>(number key-value)</i></div>
-        				<em class="fragment">다른 값의 reference를 가짐</em>
-        				<div><strong class="fragment">Memory leak 관리 대상</strong></div>
-        			</li>
-        		</ul>
-        	</section>
-        	<section>
-        		<img src="./images/dontcontrol.png"/>
-        		<p>Root는 <em>window</em> 객체</p>
-        		<p>Object는 <em>Object와 Array</em></p>
-        	</section>
-    		<section>
-        		<h3>GC (Garbage Collection)</h3>
-        		<img src="./images/gc.png"/>
-        		<p class="fragment"><strong>Root와 연결이 끊어진 node</strong>의 메모리를 해제하는 작업</p>
-        	</section>
-    		<section>
-        		<h3>Memory Leak을 제거 하는 방법</h3>
-        		<p>사용한 <em>Object, Array</em>의 Reference가<p>
-        		<p><strong>Root와 연결되지 않도록 한다.</strong></p>
-        	</section>
-        	<section data-background="#1A3819">
-	        	<h3>Memory Leak이 발생 할 수 있는</h3>
-	        	<h2>3가지 개발 패턴</h2>
-	        </section>
-			<section>
-	        	<section>
-		        	<h2>1. Timers</h2>
-		        </section>
-				<section>
-					<pre><code data-noescape>var buggyObject = {
+			<li class="fragment">
+				<div>Object(key-value), Array<i>(number key-value)</i></div>
+				<em class="fragment">다른 값의 reference를 가짐</em>
+				<div><strong class="fragment">Memory leak 관리 대상</strong></div>
+			</li>
+		</ul>
+	</section>
+	<section>
+		<img src="./images/dontcontrol.png"/>
+		<p>Root는 <em>window</em> 객체</p>
+		<p>Object는 <em>Object와 Array</em></p>
+	</section>
+	<section>
+		<h3>GC (Garbage Collection)</h3>
+		<img src="./images/gc.png"/>
+		<p class="fragment"><strong>Root와 연결이 끊어진 node</strong>의 메모리를 해제하는 작업</p>
+	</section>
+	<section>
+		<h3>Memory Leak을 제거 하는 방법</h3>
+		<p>사용한 <em>Object, Array</em>의 Reference가<p>
+		<p><strong>Root와 연결되지 않도록 한다.</strong></p>
+	</section>
+	<section data-background="#1A3819">
+		<h3>Memory Leak이 발생 할 수 있는</h3>
+		<h2>3가지 개발 패턴</h2>
+	</section>
+	<section>
+		<h2>1. Timers</h2>
+	</section>
+	<section>
+		<pre><code data-noescape>var buggyObject = {
 	callAgain: function () {
 		<span class="fragment highlight-red" data-fragment-index="2">var ref = this;</span>
 		var val = setTimeout(function () {
@@ -118,10 +116,10 @@
 buggyObject.callAgain();
 <mark class="fragment" data-fragment-index="1">buggyObject = null; // buggyObject reference 제거</mark>
 </code></pre>
-					<p class="fragment" data-fragment-index="2">timer 내부에서 buggyObject reference가 여전히 존재함</p>
-				</section>
-<section>
-					<pre><code data-noescape>var buggyObject = {
+		<p class="fragment" data-fragment-index="2">timer 내부에서 buggyObject reference가 여전히 존재함</p>
+	</section>
+	<section>
+		<pre><code data-noescape>var buggyObject = {
 	callAgain: function () {
 		<mark>function loopFunc() {</mark>
 			console.log('Called again: '
@@ -135,47 +133,43 @@ buggyObject.callAgain();
 buggyObject.callAgain();
 buggyObject = null; // buggyObject reference 제거
 </code></pre>
-					<p>timer 내부에서 buggyObject reference를 사용하지 않도록 수정</p>
-				</section>
-	        </section>
-			<section>
-	        	<section>
-		        	<h2>2. Closures</h2>
-		        	<blockquote>외부함수의 변수에 접근할 수 있는 내부 함수.<br>
-		        	함수와 그 함수가 만들어진 환경으로 이루어진 객체
-		        	</blockquote>
-		        </section>
-				<section>
-					<pre><code data-noescape>var a = function () {
-  var largeStr = new Array(1000000).join('x');
-  return <mark>function () {</mark>
-     return <span class="fragment highlight-red" data-fragment-index="1">largeStr;</span>
-  <mark>};</mark>
+		<p>timer 내부에서 buggyObject reference를 사용하지 않도록 수정</p>
+	</section>
+	<section>
+    	<h2>2. Closures</h2>
+    	<blockquote>외부함수의 변수에 접근할 수 있는 내부 함수.<br>
+    	함수와 그 함수가 만들어진 환경으로 이루어진 객체
+    	</blockquote>
+    </section>
+	<section>
+		<pre><code data-noescape>var a = function () {
+	var largeStr = new Array(1000000).join('x');
+	return <mark>function () {</mark>
+	 return <span class="fragment highlight-red" data-fragment-index="1">largeStr;</span>
+	<mark>};</mark>
 }();
 </code></pre>
-					<p class="fragment" data-fragment-index="1">반환된 closure는 largeStr 변수의 레퍼런스가 가지고 있음</p>
-				</section>
-				<section>
-					Closure는 실용적인 프로그래밍을 할수 있습니다.
+		<p class="fragment" data-fragment-index="1">반환된 closure는 largeStr 변수의 레퍼런스가 가지고 있음</p>
+	</section>
+	<section>
+		Closure는 실용적인 프로그래밍을 할수 있습니다.
 
-					<p class="fragment">하지만, <strong>무분별한 Closure</strong>는 Memory leak을 유발합니다.</p>
-				</section>
-	        </section>
-			<section>
-	        	<section>
-		        	<h2>3. DOM leaks</h2>
-		        	<img src="images/dom.png"/>
-		        </section>
-		        <section>
-		        	<blockquote>DOM node는 <em>DOM Tree에서 삭제</em>되었지만, 여전히 <strong>DOM node의 reference가 존재</strong>하는 경우
-		        	</blockquote>
-		        </section>
-	        	<section>
-	        		<div style="float:left;width:50%">
-	        			<img src="images/dom_ex.png"/>
-	        		</div>
-	        		<div style="float:left;width:50%">
-	        			<pre><code data-noescape>var select = document.querySelector;
+		<p class="fragment">하지만, <strong>무분별한 Closure</strong>는 Memory leak을 유발합니다.</p>
+	</section>
+	<section>
+    	<h2>3. DOM leaks</h2>
+    	<img src="images/dom.png"/>
+    </section>
+    <section>
+    	<blockquote>DOM node는 <em>DOM Tree에서 삭제</em>되었지만, 여전히 <strong>DOM node의 reference가 존재</strong>하는 경우
+    	</blockquote>
+    </section>
+	<section>
+		<div style="float:left;width:50%">
+			<img src="images/dom_ex.png"/>
+		</div>
+		<div style="float:left;width:50%">
+			<pre><code data-noescape>var select = document.querySelector;
 var <span class="fragment highlight-red" data-fragment-index="1">treeRef</span> = select("#tree");
 var <span class="fragment highlight-blue" data-fragment-index="2">leafRef</span> = select("#leaf");
 var body = select("body");
@@ -186,86 +180,103 @@ var body = select("body");
 
 <mark class="fragment" data-fragment-index="2">leafRef = null;</mark>
 </code></pre>
-					</div>
-					<div style="clear:both">
-						<p class="fragment" data-fragment-index="1"><strong>treeRef</strong> 때문에, GC가 발생하지 않음</p>
-						<p class="fragment" data-fragment-index="2"><em>leafRef</em> 때문에, GC가 발생하지 않음</p>
-					</div>
-				</section>
-				<section>
-		        	<h3>Event listeners</h3>
-		        </section>
-		        <section>
-					<pre><code data-noescape>var Area = document.getElementById('area');
+		</div>
+		<div style="clear:both">
+			<p class="fragment" data-fragment-index="1"><strong>treeRef</strong> 때문에, GC가 발생하지 않음</p>
+			<p class="fragment" data-fragment-index="2"><em>leafRef</em> 때문에, GC가 발생하지 않음</p>
+		</div>
+	</section>
+	<section>
+    	<h3>Event listeners</h3>
+    </section>
+    <section>
+		<pre><code data-noescape>var Area = document.getElementById('area');
 function addNote(index) {
-    var note = document.createElement('DIV');
-    note.id = 'note' + index;
-    note.innerHTML = '&lt;div&gt;노트 입니다.&lt;button class="close"&gt;&lt;/div&gt;';
-    Area.appendChild(note);
-    <mark>note.querySelector('button.close').addEventListener('click', onClickClose);</mark>
+  var note = <span class="fragment highlight-red" data-fragment-index="1">document.createElement('DIV');</span>
+  note.id = 'note' + index;
+  note.innerHTML = '&lt;div&gt;노트 입니다.&lt;button class="close"&gt;&lt;/div&gt;';
+  Area.appendChild(note);
+  <span class="fragment highlight-red" data-fragment-index="2">note.querySelector('button.close').addEventListener('click', onClickClose);</span>
 }
 function removeNode(index) {
-    var note = document.getElementById(id);
-    Area.removeChild(footnote);
-    <mark class="fragment" data-fragment-index="1">note.querySelector('button.close').removeEventListener('click', onClickClose);</mark>
+  var note = document.getElementById(id);
+  Area.removeChild(footnote);
+  <mark class="fragment" data-fragment-index="3">note.querySelector('button.close').removeEventListener('click', onClickClose);</mark>
 }
 addNote(0); removeNode(0);
 addNote(1); removeNode(1);
 </code></pre>
-	   		</section>
-			<section>
+	</section>
+	<section>
+		<pre><code data-noescape>var Area = document.getElementById('area');
+function addNote(index) {
+  var note = <span class="fragment highlight-red" data-fragment-index="1">document.createElement('DIV');</span>
+  note.id = 'note' + index;
+  note.innerHTML = '&lt;div&gt;노트 입니다.&lt;button class="close"&gt;&lt;/div&gt;';
+  Area.appendChild(note);
+}
+function removeNode(index) {
+  var note = document.getElementById(id);
+  Area.removeChild(footnote);
+}
+var handler = function(e) {
+	if(e.target.nodeName === 'button' &amp;&amp;
+	e.target.classList('close')) { onClickClose(e) }
+};
+Area.addEventListener('click', handler);
+addNote(0); removeNode(0);
+addNote(1); removeNode(1);
+Area.removeEventListener('click', handler);
+</code></pre>
+	</section>
 
-      </section>
-
-			<section data-background="#1A3819">
-	        	<h3>Chrome DevTools를 이용한</h3>
-	        	<h2>Memory Leak 분석하기</h2>
-	        </section>
-	        <section>
-	        분석하는 방법
-		        - 느린 지점을 찾아라.
-		        - 환경을 일치시켜라.
-		        - 분석을 반복해라. 측정 - 분석 - 개선
-	        </section>
-	        <section data-markdown>
-	        	### 1.전체 메모리 사용량 보기
-	        	- Task manager (shift + esc)
-	        	- javascirpt memory (JS Heap)와 memory (DOM)
-        	</section>
-        	<section data-markdown>
-	        	### 2.Timeline으로 메모리 릭 보기
-	        	> GC를 테스트 전후에 한다.
-	        	- Timeline : 메모리 릭은 계단형 상승.
-	        	- memory checkbok
-
-	        	an analysis of the code compared with the screenshot
-	        	heap 스냅샷을 뜬다.-> detached DOM
-	        	allocation timeline 이용.
-        	</section>
-
-        	<section>
-        	메모리 분석 Profile
-        	- Object size : 메모리는 그래프로 나타냄.
-        	  - Object에 직접적으로 연결된.
+	<section data-background="#1A3819">
+    	<h3>Chrome DevTools를 이용한</h3>
+    	<h2>Memory Leak 분석하기</h2>
+    </section>
+    <section>
+    분석하는 방법
+        - 느린 지점을 찾아라.
+        - 환경을 일치시켜라.
+        - 분석을 반복해라. 측정 - 분석 - 개선
+    </section>
+    <section data-markdown>
+    	### 1.전체 메모리 사용량 보기
+    	- Task manager (shift + esc)
+    	- javascirpt memory (JS Heap)와 memory (DOM)
+	</section>
+	<section data-markdown>
+    	### 2.Timeline으로 메모리 릭 보기
+    	> GC를 테스트 전후에 한다.
+    	- Timeline : 메모리 릭은 계단형 상승.
+    	- memory checkbok
+    	an analysis of the code compared with the screenshot
+    	heap 스냅샷을 뜬다.-> detached DOM
+    	allocation timeline 이용.
+	</section>
+	<section>
+	메모리 분석 Profile
+	- Object size : 메모리는 그래프로 나타냄.
+	  - Object에 직접적으로 연결된.
 Shallow Size and Retained Size,
-        	</section>
+	</section>
 
 
-        	<section>
-        		<h2>Shallow Size</h2>
-        		<p>array, string와 같이 직접적으로 메모리를 점유하고 있는 JavaScript 객체</p>
-        	</section>
+	<section>
+		<h2>Shallow Size</h2>
+		<p>array, string와 같이 직접적으로 메모리를 점유하고 있는 JavaScript 객체</p>
+	</section>
 
 
 
-            <section data-markdown>
-            	<script type="text/template">
-		        - 기준점을 정해라. 현 상황을 파악해라.
-		            => Timeline을 이용하여 파악 : The timeline tells us how long our code took to run
-		            => profile: Profilers show us which functions take the most time.
+    <section data-markdown>
+    	<script type="text/template">
+        - 기준점을 정해라. 현 상황을 파악해라.
+            => Timeline을 이용하여 파악 : The timeline tells us how long our code took to run
+            => profile: Profilers show us which functions take the most time.
 
-		        - 문제를 분리해라. 문제를 제어할 수 있도록.
-		        - 빠르게 만들라 `using timeline`과 profiles
+        - 문제를 분리해라. 문제를 제어할 수 있도록.
+        - 빠르게 만들라 `using timeline`과 profiles
 
 
 > JavaScript Profiling In Your Application Link
@@ -273,15 +284,15 @@ Real-world applications are much more complex than this color sorter, but profil
 Establish a baseline so that you know where you’re starting from.
 Isolate the problem from any other code running in the application.
 Make it faster in a controlled environment, with frequent timelines and profiles.
-    			</script>
-            </section>
-            <section data-markdown>
-	            <script type="text/template">
-	            ## Profile
-	            - Record JavaScript CPU Profile
-	            	: 좀더 빠르게 만들고 싶다.
-	            	 - Heavy (bottom up) : 많은 CPU를 사용한 함수 찾기
-	            	 > self
+		</script>
+    </section>
+        <section data-markdown>
+            <script type="text/template">
+            ## Profile
+            - Record JavaScript CPU Profile
+            	: 좀더 빠르게 만들고 싶다.
+            	 - Heavy (bottom up) : 많은 CPU를 사용한 함수 찾기
+            	 > self
 
 Name. The name of the function.
 Self time. How long it took to complete the current invocation of the function, including only the statements in the function itself, not including any functions that it called.
@@ -291,28 +302,28 @@ Aggregated self time. Aggregate time for all invocations of the function across 
 Aggregated total time. Aggregate total time for all invocations of the function, including functions called by this function.
 Not optimized. If the profiler has detected a potential optimization for the function it lists it here.
 
-	            - Take Heap Snapshot
-	            	- JavaScript Object
-	            	- related DOM nodes
-	            - Record Allocation Timeline
-	            	- isolate memory leaks
-	            - Record Allocation Profile
-	            	- JavaScript functions
-	            </script>
-            </section>
-            <section>
-            1.메모리 Leak과 제거하는 원리.
-            2.MEMORY LEAK이 발생 할 수 있는
+            - Take Heap Snapshot
+            	- JavaScript Object
+            	- related DOM nodes
+            - Record Allocation Timeline
+            	- isolate memory leaks
+            - Record Allocation Profile
+            	- JavaScript functions
+            </script>
+        </section>
+        <section>
+        1.메모리 Leak과 제거하는 원리.
+        2.MEMORY LEAK이 발생 할 수 있는
 개발 패턴 4가지
-			3.Chrome DevTool을 이용한 메모리 릭 분석
-            </section>
-            <section>
-            http://www.html5rocks.com/en/tutorials/memory/effectivemanagement/
-            </section>
-        </div>
-    </div>
-	<script src="../../reveal.js-3.3.0/lib/js/head.min.js"></script>
-	<script src="../../reveal.js-3.3.0/js/reveal.js"></script>
-	<script src="../../reveal.js-3.3.0/custom_init.js"></script>
+		3.Chrome DevTool을 이용한 메모리 릭 분석
+        </section>
+        <section>
+        http://www.html5rocks.com/en/tutorials/memory/effectivemanagement/
+        </section>
+</div>
+</div>
+<script src="../../reveal.js-3.3.0/lib/js/head.min.js"></script>
+<script src="../../reveal.js-3.3.0/js/reveal.js"></script>
+<script src="../../reveal.js-3.3.0/custom_init.js"></script>
 </body>
 </html>
