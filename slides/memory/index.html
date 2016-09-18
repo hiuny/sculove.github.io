@@ -97,7 +97,7 @@
         	</section>
         	<section data-background="#1A3819">
 	        	<h3>Memory Leak이 발생 할 수 있는</h3>
-	        	<h2>4가지 개발 패턴</h2>
+	        	<h2>3가지 개발 패턴</h2>
 	        </section>
 			<section>
 	        	<section>
@@ -106,7 +106,7 @@
 				<section>
 					<pre><code data-noescape>var buggyObject = {
 	callAgain: function () {
-		<mark>var ref = this;</mark>
+		<span class="fragment highlight-red" data-fragment-index="2">var ref = this;</span>
 		var val = setTimeout(function () {
 			console.log('Called again: '
 				+ new Date().toTimeString());
@@ -116,9 +116,9 @@
 };
 
 buggyObject.callAgain();
-<mark class="fragment">buggyObject = null; // buggyObject reference 제거</mark>
+<mark class="fragment" data-fragment-index="1">buggyObject = null; // buggyObject reference 제거</mark>
 </code></pre>
-					<p class="fragment">timer 내부에서 buggyObject reference가 여전히 존재함</p>
+					<p class="fragment" data-fragment-index="2">timer 내부에서 buggyObject reference가 여전히 존재함</p>
 				</section>
 <section>
 					<pre><code data-noescape>var buggyObject = {
@@ -135,58 +135,86 @@ buggyObject.callAgain();
 buggyObject.callAgain();
 buggyObject = null; // buggyObject reference 제거
 </code></pre>
-					<p class="fragment">timer 내부에서 buggyObject reference를 사용하지 않도록 수정</p>
+					<p>timer 내부에서 buggyObject reference를 사용하지 않도록 수정</p>
 				</section>
 	        </section>
 			<section>
 	        	<section>
 		        	<h2>2. Closures</h2>
-		        	<blockquote>외부함수의 변수에 접근할 수 있는 내부 함수</blockquote>
+		        	<blockquote>외부함수의 변수에 접근할 수 있는 내부 함수.<br>
+		        	함수와 그 함수가 만들어진 환경으로 이루어진 객체
+		        	</blockquote>
 		        </section>
 				<section>
 					<pre><code data-noescape>var a = function () {
   var largeStr = new Array(1000000).join('x');
   return <mark>function () {</mark>
-     return <mark class="fragment highlight-red">largeStr;</mark>
+     return <span class="fragment highlight-red" data-fragment-index="1">largeStr;</span>
   <mark>};</mark>
 }();
 </code></pre>
-					<p class="fragment">반환된 closure는 largeStr 변수의 레퍼런스가 가지고 있음</p>
+					<p class="fragment" data-fragment-index="1">반환된 closure는 largeStr 변수의 레퍼런스가 가지고 있음</p>
 				</section>
 				<section>
-					Closure는 간결한 프로그래밍을 할수 있습니다.
-					하지만, <em>무분별한 Closure</em>는 Memory leak을 유발합니다.
+					Closure는 실용적인 프로그래밍을 할수 있습니다.
+
+					<p class="fragment">하지만, <strong>무분별한 Closure</strong>는 Memory leak을 유발합니다.</p>
 				</section>
 	        </section>
 			<section>
 	        	<section>
 		        	<h2>3. DOM leaks</h2>
+		        	<img src="images/dom.png"/>
+		        </section>
+		        <section>
+		        	<blockquote>DOM node는 <em>DOM Tree에서 삭제</em>되었지만, 여전히 <strong>DOM node의 reference가 존재</strong>하는 경우
+		        	</blockquote>
 		        </section>
 	        	<section>
-	        		DOM nodes that are not reachable from the page’s DOM tree, but are still referenced by a JavaScript object.
-	        	</section>
-	        	<section>
-	        		<pre><code data-noescape>var select = document.querySelector;
-var treeRef = select("#tree");
-var leafRef = select("#leaf");
+	        		<div style="float:left;width:50%">
+	        			<img src="images/dom_ex.png"/>
+	        		</div>
+	        		<div style="float:left;width:50%">
+	        			<pre><code data-noescape>var select = document.querySelector;
+var <span class="fragment highlight-red" data-fragment-index="1">treeRef</span> = select("#tree");
+var <span class="fragment highlight-blue" data-fragment-index="2">leafRef</span> = select("#leaf");
 var body = select("body");
 
-<mark class="fragment">body.removeChild(treeRef);</mark>
+<mark>body.removeChild(treeRef);</mark>
 
-<mark class="fragment">//#tree can't be GC yet due to treeRef</mark>
+<mark class="fragment" data-fragment-index="1">treeRef = null;</mark>
 
-<mark class="fragment">treeRef = null;</mark>
-
-<mark class="fragment">//#tree can't be GC yet, due to indirect reference from leafRef</mark>
-
-<mark class="fragment">leafRef = null;</mark>
+<mark class="fragment" data-fragment-index="2">leafRef = null;</mark>
 </code></pre>
-						</section>
-	    </section>
-			<section>
-	        	<section>
-		        	<h2>4. Unbind event listeners</h2>
+					</div>
+					<div style="clear:both">
+						<p class="fragment" data-fragment-index="1"><strong>treeRef</strong> 때문에, GC가 발생하지 않음</p>
+						<p class="fragment" data-fragment-index="2"><em>leafRef</em> 때문에, GC가 발생하지 않음</p>
+					</div>
+				</section>
+				<section>
+		        	<h3>Event listeners</h3>
 		        </section>
+		        <section>
+					<pre><code data-noescape>var Area = document.getElementById('area');
+function addNote(index) {
+    var note = document.createElement('DIV');
+    note.id = 'note' + index;
+    note.innerHTML = '&lt;div&gt;노트 입니다.&lt;button class="close"&gt;&lt;/div&gt;';
+    Area.appendChild(note);
+    <mark>note.querySelector('button.close').addEventListener('click', onClickClose);</mark>
+}
+function removeNode(index) {
+    var note = document.getElementById(id);
+    Area.removeChild(footnote);
+    <mark class="fragment" data-fragment-index="1">note.querySelector('button.close').removeEventListener('click', onClickClose);</mark>
+}
+addNote(0); removeNode(0);
+addNote(1); removeNode(1);
+</code></pre>
+	   		</section>
+			<section>
+
       </section>
 
 			<section data-background="#1A3819">
