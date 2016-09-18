@@ -257,8 +257,7 @@ addNote(1); removeNote(1);
 	</section>
 	<section>
 	메모리 분석 Profile
-	- Object size : 메모리는 그래프로 나타냄.
-	  - Object에 직접적으로 연결된.
+
 Shallow Size and Retained Size,
 	</section>
 
@@ -313,18 +312,41 @@ Not optimized. If the profiler has detected a potential optimization for the fun
             </script>
         </section>
         <section>
-        1.메모리 Leak과 제거하는 원리.
-        2.MEMORY LEAK이 발생 할 수 있는
-개발 패턴 4가지
-		3.Chrome DevTool을 이용한 메모리 릭 분석
-        </section>
-        <section>
-        http://www.html5rocks.com/en/tutorials/memory/effectivemanagement/
-        </section>
+			<h2>Reference</h2>
+			<ul style="font-size:24px;line-height:35px">
+				<li>
+					Effectively Managing Memory at Gmail scale<br>
+					<a href="http://www.html5rocks.com/en/tutorials/memory/effectivemanagement/" target="_new">http://www.html5rocks.com/en/tutorials/memory/effectivemanagement/</a>
+				</li>
+				<li>
+					Fix Memory Problems<br>
+					<a href="https://developers.google.com/web/tools/chrome-devtools/profile/memory-problems/?hl=en" target="_new">https://developers.google.com/web/tools/chrome-devtools/profile/memory-problems/?hl=en</a>
+				</li>
+				<li>
+					Finding and debugging memory leaks in JavaScript with Chrome DevTools<br>
+					<a href="http://slides.com/gruizdevilla/memory" target="_new">http://slides.com/gruizdevilla/memory</a>
+				</li>
+				<li>
+					nhnent/fe.javascript wiki<br>
+					<a href="https://github.com/nhnent/fe.javascript/wiki/August-22-August-26,-2016" target="_new">https://github.com/nhnent/fe.javascript/wiki/August-22-August-26,-2016</a>
+				</li>
+			</ul>
+		</section>
+		<section>
+			<h2>감사합니다.</h2>
+			<br>
+			<h3>BY <a href="http://sculove.github.io/blog/">손찬욱</a> / <a href="https://www.facebook.com/chanuk.son">chanuk.son</a></h3>
+		</section>
 </div>
 </div>
 <script src="../../reveal.js-3.3.0/lib/js/head.min.js"></script>
 <script src="../../reveal.js-3.3.0/js/reveal.js"></script>
 <script src="../../reveal.js-3.3.0/custom_init.js"></script>
+<script>
+// $("code[contenteditable]").focusout(function(e) {
+// 	var $el = $(e.target);
+// 	eval($el.text());
+// });
+</script>
 </body>
 </html>
