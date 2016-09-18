@@ -286,13 +286,13 @@ Isolate the problem from any other code running in the application.
 Make it faster in a controlled environment, with frequent timelines and profiles.
 		</script>
     </section>
-        <section data-markdown>
-            <script type="text/template">
-            ## Profile
-            - Record JavaScript CPU Profile
-            	: 좀더 빠르게 만들고 싶다.
-            	 - Heavy (bottom up) : 많은 CPU를 사용한 함수 찾기
-            	 > self
+    <section data-markdown>
+        <script type="text/template">
+        ## Profile
+        - Record JavaScript CPU Profile
+        	: 좀더 빠르게 만들고 싶다.
+        	 - Heavy (bottom up) : 많은 CPU를 사용한 함수 찾기
+        	 > self
 
 Name. The name of the function.
 Self time. How long it took to complete the current invocation of the function, including only the statements in the function itself, not including any functions that it called.
@@ -302,41 +302,41 @@ Aggregated self time. Aggregate time for all invocations of the function across 
 Aggregated total time. Aggregate total time for all invocations of the function, including functions called by this function.
 Not optimized. If the profiler has detected a potential optimization for the function it lists it here.
 
-            - Take Heap Snapshot
-            	- JavaScript Object
-            	- related DOM nodes
-            - Record Allocation Timeline
-            	- isolate memory leaks
-            - Record Allocation Profile
-            	- JavaScript functions
-            </script>
-        </section>
-        <section>
-			<h2>Reference</h2>
-			<ul style="font-size:24px;line-height:35px">
-				<li>
-					Effectively Managing Memory at Gmail scale<br>
-					<a href="http://www.html5rocks.com/en/tutorials/memory/effectivemanagement/" target="_new">http://www.html5rocks.com/en/tutorials/memory/effectivemanagement/</a>
-				</li>
-				<li>
-					Fix Memory Problems<br>
-					<a href="https://developers.google.com/web/tools/chrome-devtools/profile/memory-problems/?hl=en" target="_new">https://developers.google.com/web/tools/chrome-devtools/profile/memory-problems/?hl=en</a>
-				</li>
-				<li>
-					Finding and debugging memory leaks in JavaScript with Chrome DevTools<br>
-					<a href="http://slides.com/gruizdevilla/memory" target="_new">http://slides.com/gruizdevilla/memory</a>
-				</li>
-				<li>
-					nhnent/fe.javascript wiki<br>
-					<a href="https://github.com/nhnent/fe.javascript/wiki/August-22-August-26,-2016" target="_new">https://github.com/nhnent/fe.javascript/wiki/August-22-August-26,-2016</a>
-				</li>
-			</ul>
-		</section>
-		<section>
-			<h2>감사합니다.</h2>
-			<br>
-			<h3>BY <a href="http://sculove.github.io/blog/">손찬욱</a> / <a href="https://www.facebook.com/chanuk.son">chanuk.son</a></h3>
-		</section>
+        - Take Heap Snapshot
+        	- JavaScript Object
+        	- related DOM nodes
+        - Record Allocation Timeline
+        	- isolate memory leaks
+        - Record Allocation Profile
+        	- JavaScript functions
+        </script>
+    </section>
+    <section>
+		<h2>Reference</h2>
+		<ul style="font-size:24px;line-height:35px">
+			<li>
+				Effectively Managing Memory at Gmail scale<br>
+				<a href="http://www.html5rocks.com/en/tutorials/memory/effectivemanagement/" target="_new">http://www.html5rocks.com/en/tutorials/memory/effectivemanagement/</a>
+			</li>
+			<li>
+				Fix Memory Problems<br>
+				<a href="https://developers.google.com/web/tools/chrome-devtools/profile/memory-problems/?hl=en" target="_new">https://developers.google.com/web/tools/chrome-devtools/profile/memory-problems/?hl=en</a>
+			</li>
+			<li>
+				Finding and debugging memory leaks in JavaScript with Chrome DevTools<br>
+				<a href="http://slides.com/gruizdevilla/memory" target="_new">http://slides.com/gruizdevilla/memory</a>
+			</li>
+			<li>
+				nhnent/fe.javascript wiki<br>
+				<a href="https://github.com/nhnent/fe.javascript/wiki/August-22-August-26,-2016" target="_new">https://github.com/nhnent/fe.javascript/wiki/August-22-August-26,-2016</a>
+			</li>
+		</ul>
+	</section>
+	<section>
+		<h2>감사합니다.</h2>
+		<br>
+		<h3>BY <a href="http://sculove.github.io/blog/">손찬욱</a> / <a href="https://www.facebook.com/chanuk.son">chanuk.son</a></h3>
+	</section>
 </div>
 </div>
 <script src="../../reveal.js-3.3.0/lib/js/head.min.js"></script>
