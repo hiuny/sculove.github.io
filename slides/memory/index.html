@@ -198,38 +198,39 @@ function addNote(index) {
   Area.appendChild(note);
   <span class="fragment highlight-red" data-fragment-index="2">note.querySelector('button.close').addEventListener('click', onClickClose);</span>
 }
-function removeNode(index) {
+function removeNote(index) {
   var note = document.getElementById(id);
-  Area.removeChild(footnote);
-  <mark class="fragment" data-fragment-index="3">note.querySelector('button.close').removeEventListener('click', onClickClose);</mark>
+  Area.removeChild(note);
+  <mark class="fragment" data-fragment-index="5">note.querySelector('button.close').removeEventListener('click', onClickClose);</mark>
 }
-addNote(0); removeNode(0);
-addNote(1); removeNode(1);
+<mark class="fragment" data-fragment-index="3">addNote(0); removeNote(0);
+addNote(1); removeNote(1);</mark>
 </code></pre>
+		<p class="fragment" data-fragment-index="4"><em>이벤트</em>를 dettach 하지 않기 때문에, GC가 발생하지 않음</p>
 	</section>
 	<section>
 		<pre><code data-noescape>var Area = document.getElementById('area');
 function addNote(index) {
-  var note = <span class="fragment highlight-red" data-fragment-index="1">document.createElement('DIV');</span>
+  var note = document.createElement('DIV');
   note.id = 'note' + index;
   note.innerHTML = '&lt;div&gt;노트 입니다.&lt;button class="close"&gt;&lt;/div&gt;';
   Area.appendChild(note);
 }
-function removeNode(index) {
-  var note = document.getElementById(id);
-  Area.removeChild(footnote);
+function removeNote(index) {
+  Area.removeChild(document.getElementById(id));
 }
-var handler = function(e) {
-	if(e.target.nodeName === 'button' &amp;&amp;
-	e.target.classList('close')) { onClickClose(e) }
-};
-Area.addEventListener('click', handler);
-addNote(0); removeNode(0);
-addNote(1); removeNode(1);
-Area.removeEventListener('click', handler);
-</code></pre>
+<mark>function handler(e) {
+	if(e.target.nodeName === 'button'
+		&amp;&amp; e.target.classList.contains('close') ) {
+		onClickClose(e);
+	}
+}</mark>
+<mark>Area.addEventListener('click', handler);</mark>
+addNote(0); removeNote(0);
+addNote(1); removeNote(1);
+<mark>Area.removeEventListener('click', handler);</mark></code></pre>
+		<p><em>이벤트 delegate</em>을 이용하여 개발</p>
 	</section>
-
 	<section data-background="#1A3819">
     	<h3>Chrome DevTools를 이용한</h3>
     	<h2>Memory Leak 분석하기</h2>
