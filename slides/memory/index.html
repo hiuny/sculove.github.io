@@ -245,20 +245,20 @@ addNote(1); removeNote(1);
     </ol>
   </section>
   <section>
-  	<h3>문제를 <strong>재연</strong>시키고, 확인하라</h3>
+  	<h3>문제를 <em>재연</em>시키고, 확인하라</h3>
   	<ul>
   		<li class="fragment">현재 상태 확인</li>
-  		<li class="fragment">문제 원인 유추</li>
   		<li class="fragment">목표 지표 확인</li>
   	</ul>
+  	<p class="fragment"><strong>AS-IS와 TO-BE를 설정</strong></p>
   </section>
   <section>
   	<h4>전체 메모리, CPU 사용량 보기</h4>
 		<p>Task Manager (옵션 > 도구 더보기 > 작업관리자)</p>
 		<img src="images/taskmanager.png"/>
   	<small>JavaScript Memory(JS Heap)와 Memory (DOM)</small>
-	</section>
-	<section>
+  </section>
+  <section>
     <h4>Timeline으로 확인하기 (1/3)</h4>
     <p>DevTools > Timeline tab, check `memory`</p>
     <img src="images/timeline.png"/>
@@ -269,10 +269,10 @@ addNote(1); removeNote(1);
     <ol>
     	<li>Record 시작</li>
     	<li>GC 버튼을 일정 시간 간격으로 몇차례 눌러, <strong>강제로 메모리를 릴리즈</strong>한다.</li>
-    	<li>Record를 중지한다</li>
+    	<li>Record 중지</li>
     </ol>
-    <a href="../../demo/memory/grow.html" target="_blank">DEMO</a>
-	</section>
+    <a href="../../demo/memory/grow.html" target="_blank">Grow DEMO</a>
+  </section>
   <section>
   	<h4>Timeline으로 확인하기 (3/3)</h4>
   	<p>Memory Leak이 존재하면 <strong>계단형</strong>의 timeline을 보임</p>
@@ -294,13 +294,19 @@ addNote(1); removeNote(1);
   		<div style="height:20px">&nbsp;</div>
   		<li class="fragment"><strong>메모리</strong>가 문제인가?
   			<ul class="fragment">
-  				<li>Profile을 통한 <em>Memory leak</em> 확인</li>
+  				<li>Profile을 통한 <em>Memory 사용량</em> 확인</li>
+  				<li>Profile을 통한 <em>Memory Leak</em> 확인</li>
   			</ul>
   		</li>
   	</ul>
   </section>
 	<section>
 		<h3>3. 문제를 해결하라</h3>
+		<ul>
+	  		<li class="fragment">문제를 분리하라</li>
+	  		<li class="fragment">문제를 제외한 외부요소를 통제하라</li>
+	  		<li class="fragment">문제를 <strong>분석</strong>하라</li>
+	  	</ul>
 	</section>
 	<section>
 		<h3>Profile 하기</h3>
@@ -327,56 +333,94 @@ addNote(1); removeNote(1);
   </section>
 	<section>
   	<h3>Take Heap Snapshot</h3>
-  	<p>Snapshot을 뜬 후, 비교를 통해 변경된 메모리 세부 내역을 확인한다</p>
+  	<p>Snapshot을 뜬 후, <strong>비교</strong>를 통해 변경된 메모리 세부 내역을 확인한다</p>
   </section>
   <section>
-		<h3>그 전에 알아야할 메모리 관련 용어 (1/2)</h3>
-    <ul>
-    	<li>
-	    	Shallow Size
-	      <p class="fragment">array, string와 같이 직접적으로 메모리를 점유하고 있는 JavaScript 객체들의 크기</p>
-    	</li>
-    	<li>
-    		Retained Size
-    		<p class="fragment">GC이후 남겨진 메모리의 크기. 즉, <strong>메모리를 해제할수 없는 JS Heap의 크기</strong></p>
-      </li>
-    </ul>
-  </section>
+  	<section>
+		<h3>그 전에 알아야할 메모리 관련 용어</h3>
+	</section>
 	<section>
-		<h3>그 전에 알아야할 메모리 관련 용어 (2/2)</h3>
-    <p>Distance: GC root로 부터의 Retaining Path</p>
-    <img src="images/path.png"/>
-    <small>8의 distance는 4</small>
+    	<h4>Shallow Size 와 Retained Size</h4>
+    	<ul>
+	    	<li class="fragment">
+		    	Shallow Size
+		      <p>array, string와 같이 직접적으로 메모리를 점유하고 있는 JavaScript 객체들의 크기 <em>실제 데이터가 있는 영역</em></p>
+	    	</li>
+	    	<li class="fragment">
+	    		Retained Size
+	    		<p>GC이후 남겨진 메모리의 크기. 즉, <em>실제 사용중인 JS Heap의 크기</em></p>
+	      	</li>
+	    </ul>
+	    <p class="fragment"><strong>Shallow Size는 작지만, Retained Size가 굉장히 많다면?</strong></p>
+	    <p class="fragment">Memory leak을 의심하라</p>
+	</section>
+	<section>
+		<h4>Distance</h4>
+    	<p>GC root로 부터의 Retaining Path</p>
+    	<img src="images/path.png"/><br>
+    	<small>8의 distance는 4</small>
+  	</section>
   </section>
   <section>
-		<h3>메모리 툴의 view 타입</h3>
-    <ul>
-    	<li>
-	    	Summary view
-	      <p>constructor 이름으로 그룹지어 보여주는 뷰</p>
-    	</li>
-    	<li>
-    		Compare view
-    		<p>constructor 이름으로 그룹지어 표시하고, 2개의 Snapshot의 차이를 표시해주는 뷰</p>
-    	</li>
-    	<li>
-    		Containment view
-    		<p>JS Heap 메모리의 그래프를 표시</p>
-    	</li>
-    	<li>
-    		Statistics View
-    		<p>사용량을 그래프로 표시</p>
-    	</li>
-    </ul>
-    <a href="../../demo/memory/view.html" target="_blank">DEMO</a>
+	<section>
+		<h3>Profile의 View 타입</h3>
+	</section>
+	<section>
+	    <h4>Summary View</h4>
+		<p><em>constructor 그룹별</em>로 보여주는 뷰</p>
+		<img src="images/summary.png"/>
+	</section>
+	<section>
+	    <h4>Comparison View</h4>
+		<p>constructor 그룹별로 보여주고,<br><em>2개의 Snapshot의 차이를 표시</em>해주는 뷰</p>
+		<img src="images/comparison.png"/>
+	</section>
+	<section>
+	    <h4>Containment View</h4>
+		<p>JS Heap 메모리의 <em>Object 구조</em>를 보여주는 뷰</p>
+		<img src="images/containment.png"/>
+	</section>
+	<section>
+	    <h4>Statistics View</h4>
+		<p>메모리 사용량을 <em>파이 차트</em>로 보여주는 뷰</p>
+		<img src="images/statistics.png"/>
+	</section>
+	<section>
+		<h4>DEMO</h4>
+		<div>
+			Summary/Comparison View :
+			<a href="../../demo/memory/view.html" target="_blank">View DEMO</a>
+		</div>
+		<div>Containment/Statistics View :
+    		<a href="../../demo/memory/domleak.html" target="_blank">DOM Leak DEMO</a>
+    	</div>
+	</section>
   </section>
   <section>
   	<h3>Record Allocation Timeline</h3>
-  	<p></p>
+  	<p><strong>Memory leak</strong> 확인시 용이</p>
+  	<a href="../../demo/memory/grow.html" target="_blank">Grow DEMO</a>
+  	<img src="images/allocation_timeline.png"/>
+  	<small><span style="color:white; background-color:blue">파란색바</span> 메모리 할당.</small>&nbsp;&nbsp;&nbsp;
+  	<small><span style="color:white; background-color:grey">회색바</span> 메모리 해지.</small>
   </section>
   <section>
   	<h3>Record Allocation Profile</h3>
-  	<p></p>
+  	<p><strong>함수별 메모리 사용량</strong> 파악시 용이</p>
+  	<a href="../../demo/memory/grow.html" target="_blank">Grow DEMO</a>
+  	<img src="images/allocation_profile.png"/>
+  	<small><img style="margin:0px;" src="images/focus.png"/> 선택된 함수 중심으로 보기</small>&nbsp;&nbsp;
+  	<small><img style="margin:0px;" src="images/hidden.png"/> 선택된 함수 숨기기</small>&nbsp;&nbsp;
+  	<small><img style="margin:0px;" src="images/restore.png"/> 초기화하기</small>
+  </section>
+  <section>
+	  <h2>정리</h2>
+	  <ul>
+	  	<li class="fragment">Memory Leak과 Memory</li>
+	  	<li class="fragment">Memory Leak이 발생할수 있는 3가지 개발 패턴</li>
+	  	<li class="fragment">CHROME DEVTOOLS를 이용한
+MEMORY LEAK 분석하기</li>
+	  </ul>
   </section>
   <section>
 		<h2>Reference</h2>

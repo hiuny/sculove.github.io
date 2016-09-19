@@ -23,13 +23,19 @@
   </ol><button onclick="start()">The start Button</button>
   <button onclick="stop()">The stop Button</button>
   <pre><code>var running = true;
-var x = [];
-function createNodes() {
+var doms = [];
+var wrapper = document.getElementById('nodes');
+function createAndRemoveNodes() {
     var frag = document.createDocumentFragment();
-    for (var i=100; i > 0; i--) {
-      frag.appendChild(document.createElement('div'));
+    for (var i=100, div; i > 0; i--) {
+      div = document.createElement('div');
+      doms.push(div);
+      frag.appendChild(div);
     }
-    document.getElementById('nodes').appendChild(frag);
+    wrapper.appendChild(frag);
+    while (wrapper.firstChild) {
+        wrapper.removeChild(wrapper.firstChild);
+    }
 }
 
 function start() {
@@ -41,8 +47,7 @@ function start() {
 function grow() {
   if(running) {
     console.info("1초 간격으로 running");
-    x.push(new Array(1000000).join('x'));
-    createNodes();
+    createAndRemoveNodes();
     setTimeout(grow, 1000);
   }
 }
