@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<!-- Theme used for syntax highlighting of code -->
+<link rel="stylesheet" href="../../reveal.js-3.3.0/lib/css/darkula.css">
+<script src="../../reveal.js-3.3.0/plugin/highlight/highlight.pack.js"></script>
+</head>
+<body>
+  <h1>View Example</h1>
+  <ul>
+    <li>Summary View
+      <ul>
+        <li>Summary - All Object</li>
+        <li>Summary - Object allocated between Snapshot1 and Snapshot2</li>
+      </ul>
+    </li>
+    <li>Compare View - Snapshot1/2</li>
+    <li>Containment view</li>
+    <li>Statistics view</li>
+  </ul>
+  <button onclick="init()">init()</button>
+  <pre><code>function Item(x)
+{
+  this.x = x;
+}
+
+function numbers()
+{
+  var result = new Array(10000);
+  for (var i = 0, l = result.length; i < l; ++i)
+    result[i] = new Item(i);
+  return new Item(result);
+}
+
+function strings()
+{
+  var result = new Array(10000);
+  for (var i = 0, l = result.length; i < l; ++i)
+    result[i] = new Item(i.toString());
+  return new Item(result);
+}
+
+function init()
+{
+  numberCache = numbers();
+  stringCache = strings();
+  documentCache = new Item(document.body.textContent.toLowerCase());
+}</code></pre>
+  <div id="nodes" style="display:none"></div>
+
+<script>
+hljs.initHighlightingOnLoad();
+function Item(x)
+{
+  this.x = x;
+}
+
+function numbers()
+{
+  var result = new Array(10000);
+  for (var i = 0, l = result.length; i < l; ++i)
+    result[i] = new Item(i);
+  return new Item(result);
+}
+
+function strings()
+{
+  var result = new Array(10000);
+  for (var i = 0, l = result.length; i < l; ++i)
+    result[i] = new Item(i.toString());
+  return new Item(result);
+}
+
+function init()
+{
+  numberCache = numbers();
+  stringCache = strings();
+  documentCache = new Item(document.body.textContent.toLowerCase());
+}
+</script>
+</body>
+</html>

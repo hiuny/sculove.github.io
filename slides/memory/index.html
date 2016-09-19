@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-	<title>Web Application 메모리 사용량 분석 및 debugging tool 활용법</title>
+	<title>Google DevTools를 이용한 Web Application Memory 분석법</title>
 	<meta name="description" content="JavaScript Memory">
 	<meta name="author" content="sculove. 손찬욱">
 	<meta name="apple-mobile-web-app-capable" content="yes" />
@@ -24,7 +24,7 @@
 <div class="slides">
 	<section>
 		<h3>Google DevTools를 이용한</h3>
-	    <h1>Web Application Memory 분석법</h1>
+    <h1>Web Application Memory 분석법</h1>
 	</section>
 	<section data-background="#1A3819">
 		<h2>Memory Leak</h2>
@@ -81,7 +81,7 @@
 	</section>
 	<section>
 		<img src="./images/dontcontrol.png"/>
-		<p>Root는 <em>window</em> 객체</p>
+		<!-- <p>Root는 <em>window</em> 객체</p> -->
 		<p>Object는 <em>Object와 Array</em></p>
 	</section>
 	<section>
@@ -133,7 +133,7 @@ buggyObject.callAgain();
 buggyObject.callAgain();
 buggyObject = null; // buggyObject reference 제거
 </code></pre>
-		<p>timer 내부에서 buggyObject reference를 사용하지 않도록 수정</p>
+		<p>timer 내부에서 buggyObject reference를 사용하지 않는다.</p>
 	</section>
 	<section>
     	<h2>2. Closures</h2>
@@ -232,86 +232,153 @@ addNote(1); removeNote(1);
 		<p><em>이벤트 delegate</em>을 이용하여 개발</p>
 	</section>
 	<section data-background="#1A3819">
-    	<h3>Chrome DevTools를 이용한</h3>
-    	<h2>Memory Leak 분석하기</h2>
-    </section>
-    <section>
-    분석하는 방법
-        - 느린 지점을 찾아라.
-        - 환경을 일치시켜라.
-        - 분석을 반복해라. 측정 - 분석 - 개선
-    </section>
-    <section data-markdown>
-    	### 1.전체 메모리 사용량 보기
-    	- Task manager (shift + esc)
-    	- javascirpt memory (JS Heap)와 memory (DOM)
-	</section>
-	<section data-markdown>
-    	### 2.Timeline으로 메모리 릭 보기
-    	> GC를 테스트 전후에 한다.
-    	- Timeline : 메모리 릭은 계단형 상승.
-    	- memory checkbok
-    	an analysis of the code compared with the screenshot
-    	heap 스냅샷을 뜬다.-> detached DOM
-    	allocation timeline 이용.
+  	<h3>Chrome DevTools를 이용한</h3>
+  	<h2>Memory Leak 분석하기</h2>
+  </section>
+  <section>
+  	<h3>문제를 해결하는 방법</h3>
+    <ol>
+    	<li class="fragment">문제를 <strong>재연</strong>시키고, 확인하라</li>
+    	<li class="fragment">문제의 원인을 파악하라</li>
+    	<li class="fragment">문제를 해결하라.</li>
+    	<li class="fragment">목표점에 도달하기 까지 이를 <strong>반복</strong>하라.</li>
+    </ol>
+  </section>
+  <section>
+  	<h3>문제를 <strong>재연</strong>시키고, 확인하라</h3>
+  	<ul>
+  		<li class="fragment">현재 상태 확인</li>
+  		<li class="fragment">문제 원인 유추</li>
+  		<li class="fragment">목표 지표 확인</li>
+  	</ul>
+  </section>
+  <section>
+  	<h4>전체 메모리, CPU 사용량 보기</h4>
+		<p>Task Manager (옵션 > 도구 더보기 > 작업관리자)</p>
+		<img src="images/taskmanager.png"/>
+  	<small>JavaScript Memory(JS Heap)와 Memory (DOM)</small>
 	</section>
 	<section>
-	메모리 분석 Profile
-
-Shallow Size and Retained Size,
+    <h4>Timeline으로 확인하기 (1/3)</h4>
+    <p>DevTools > Timeline tab, check `memory`</p>
+    <img src="images/timeline.png"/>
+    <small>확장 프로그램을 제외하기 위해, 시크릿 창으로 Chrome을 열어 확인한다</small>
+  </section>
+  <section>
+  	<h4>Timeline으로 확인하기 (2/3)</h4>
+    <ol>
+    	<li>Record 시작</li>
+    	<li>GC 버튼을 일정 시간 간격으로 몇차례 눌러, <strong>강제로 메모리를 릴리즈</strong>한다.</li>
+    	<li>Record를 중지한다</li>
+    </ol>
+    <a href="../../demo/memory/grow.html" target="_blank">DEMO</a>
 	</section>
-
-
+  <section>
+  	<h4>Timeline으로 확인하기 (3/3)</h4>
+  	<p>Memory Leak이 존재하면 <strong>계단형</strong>의 timeline을 보임</p>
+    <img src="images/grow.png"/>
+    <p class="fragment">JS Heap이 <em>계단형</em>, Nodes가 <em>계단형</em></p>
+    <p class="fragment">JS Heap이 <strong>Memory Leak</strong>, Nodes가 <strong>Memory Leak</strong></p>
+	</section>
 	<section>
-		<h2>Shallow Size</h2>
-		<p>array, string와 같이 직접적으로 메모리를 점유하고 있는 JavaScript 객체</p>
+  	<h3>2. 문제의 원인을 파악하라</h3>
+  </section>
+  <section>
+  	<ul>
+  		<li><strong>성능</strong>이 문제인가?
+  			<ul class="fragment">
+  				<li>Timeline을 통한 <em>Bottleneck</em> 확인</li>
+  				<li>CPU Profile을 통한 <em>CPU 사용량</em> 확인</li>
+  			</ul>
+  		</li>
+  		<div style="height:20px">&nbsp;</div>
+  		<li class="fragment"><strong>메모리</strong>가 문제인가?
+  			<ul class="fragment">
+  				<li>Profile을 통한 <em>Memory leak</em> 확인</li>
+  			</ul>
+  		</li>
+  	</ul>
+  </section>
+	<section>
+		<h3>3. 문제를 해결하라</h3>
 	</section>
-
-
-
-    <section data-markdown>
-    	<script type="text/template">
-        - 기준점을 정해라. 현 상황을 파악해라.
-            => Timeline을 이용하여 파악 : The timeline tells us how long our code took to run
-            => profile: Profilers show us which functions take the most time.
-
-        - 문제를 분리해라. 문제를 제어할 수 있도록.
-        - 빠르게 만들라 `using timeline`과 profiles
-
-
-> JavaScript Profiling In Your Application Link
-Real-world applications are much more complex than this color sorter, but profiling them follows the same basic steps:
-Establish a baseline so that you know where you’re starting from.
-Isolate the problem from any other code running in the application.
-Make it faster in a controlled environment, with frequent timelines and profiles.
-		</script>
-    </section>
-    <section data-markdown>
-        <script type="text/template">
-        ## Profile
-        - Record JavaScript CPU Profile
-        	: 좀더 빠르게 만들고 싶다.
-        	 - Heavy (bottom up) : 많은 CPU를 사용한 함수 찾기
-        	 > self
-
-Name. The name of the function.
-Self time. How long it took to complete the current invocation of the function, including only the statements in the function itself, not including any functions that it called.
-Total time. The time it took to complete the current invocation of this function and any functions that it called.
-URL. The location of the function defintion in the form of file.js:100 where file.js is the name of the file where the function is defined and 100 is the line number of the definition.
-Aggregated self time. Aggregate time for all invocations of the function across the recording, not including functions called by this function.
-Aggregated total time. Aggregate total time for all invocations of the function, including functions called by this function.
-Not optimized. If the profiler has detected a potential optimization for the function it lists it here.
-
-        - Take Heap Snapshot
-        	- JavaScript Object
-        	- related DOM nodes
-        - Record Allocation Timeline
-        	- isolate memory leaks
-        - Record Allocation Profile
-        	- JavaScript functions
-        </script>
-    </section>
-    <section>
+	<section>
+		<h3>Profile 하기</h3>
+		<img src="images/profile.png"/>
+		<small>profile 측정 전에 GC를 자동 실행한다</small>
+	</section>
+	<section>
+		<h3>메모리 관련 툴</h3>
+    <ul>
+    	<li>
+	    	Take Heap Snapshot
+	      <div><em>JavaScript Object</em> and related <em>DOM nodes</em></div>
+				<pre class="fragment"><code>kill -6 pid</code></pre>
+    	</li>
+    	<li class="fragment">
+    		Record Allocation Timeline
+    		<p class="fragment">시간 기준으로 할당과 해제를 반복하여, <strong>남겨진 메모리</strong>를 확인</p>
+      </li>
+      <li class="fragment">
+        Record Allocation Profile
+        <p class="fragment"><em>JavaScript 함수</em> 기준으로 메모리량 확인</p>
+      </li>
+    </ul>
+  </section>
+	<section>
+  	<h3>Take Heap Snapshot</h3>
+  	<p>Snapshot을 뜬 후, 비교를 통해 변경된 메모리 세부 내역을 확인한다</p>
+  </section>
+  <section>
+		<h3>그 전에 알아야할 메모리 관련 용어 (1/2)</h3>
+    <ul>
+    	<li>
+	    	Shallow Size
+	      <p class="fragment">array, string와 같이 직접적으로 메모리를 점유하고 있는 JavaScript 객체들의 크기</p>
+    	</li>
+    	<li>
+    		Retained Size
+    		<p class="fragment">GC이후 남겨진 메모리의 크기. 즉, <strong>메모리를 해제할수 없는 JS Heap의 크기</strong></p>
+      </li>
+    </ul>
+  </section>
+	<section>
+		<h3>그 전에 알아야할 메모리 관련 용어 (2/2)</h3>
+    <p>Distance: GC root로 부터의 Retaining Path</p>
+    <img src="images/path.png"/>
+    <small>8의 distance는 4</small>
+  </section>
+  <section>
+		<h3>메모리 툴의 view 타입</h3>
+    <ul>
+    	<li>
+	    	Summary view
+	      <p>constructor 이름으로 그룹지어 보여주는 뷰</p>
+    	</li>
+    	<li>
+    		Compare view
+    		<p>constructor 이름으로 그룹지어 표시하고, 2개의 Snapshot의 차이를 표시해주는 뷰</p>
+    	</li>
+    	<li>
+    		Containment view
+    		<p>JS Heap 메모리의 그래프를 표시</p>
+    	</li>
+    	<li>
+    		Statistics View
+    		<p>사용량을 그래프로 표시</p>
+    	</li>
+    </ul>
+    <a href="../../demo/memory/view.html" target="_blank">DEMO</a>
+  </section>
+  <section>
+  	<h3>Record Allocation Timeline</h3>
+  	<p></p>
+  </section>
+  <section>
+  	<h3>Record Allocation Profile</h3>
+  	<p></p>
+  </section>
+  <section>
 		<h2>Reference</h2>
 		<ul style="font-size:24px;line-height:35px">
 			<li>

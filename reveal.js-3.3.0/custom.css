@@ -11,6 +11,21 @@ blockquote {
 	border-radius: 5px;
 }
 
-li {
+.reveal li {
 	margin-bottom : 10px !important;
+}
+
+.reveal p {
+  color: #93a1a1;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6 {
+  color: #eee8d5;
+  /*text-transform: uppercase;*/
+  text-shadow: none;
 }

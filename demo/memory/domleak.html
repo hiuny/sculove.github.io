@@ -7,22 +7,15 @@
 <script src="../../reveal.js-3.3.0/plugin/highlight/highlight.pack.js"></script>
 </head>
 <body>
-  <h1>Memory Grow</h1>
+  <h1>DOM Leak</h1>
   <ol>
     <li>Open new secret window</li>
     <li>Open DevTools</li>
-    <li>Select Timeline Tab</li>
-    <li>Select Memory</li>
+    <li>Select Profile Tab</li>
     <li>Record
       <ol>
         <li>Push The start Button</li>
-        <li>Force The GC</li>
         <li>Wait a minute...</li>
-        <li>Force The GC</li>
-        <li>Wait a minute...</li>
-        <li>Force The GC</li>
-        <li>Wait a minute...</li>
-        <li>Force The GC</li>
       </ol>
     </li>
     <li>Stop Record</li>
@@ -63,13 +56,19 @@ function stop() {
 <script>
 hljs.initHighlightingOnLoad();
 var running = true;
-var x = [];
-function createNodes() {
+var doms = [];
+var wrapper = document.getElementById('nodes');
+function createAndRemoveNodes() {
     var frag = document.createDocumentFragment();
-    for (var i=100; i > 0; i--) {
-      frag.appendChild(document.createElement('div'));
+    for (var i=100, div; i > 0; i--) {
+      div = document.createElement('div');
+      doms.push(div);
+      frag.appendChild(div);
     }
-    document.getElementById('nodes').appendChild(frag);
+    wrapper.appendChild(frag);
+    while (wrapper.firstChild) {
+        wrapper.removeChild(wrapper.firstChild);
+    }
 }
 
 function start() {
@@ -81,8 +80,7 @@ function start() {
 function grow() {
 	if(running) {
 		console.info("1초 간격으로 running");
-		x.push(new Array(1000000).join('x'));
-    createNodes();
+    createAndRemoveNodes();
     setTimeout(grow, 1000);
 	}
 }
