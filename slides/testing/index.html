@@ -1,317 +1,58 @@
 <!doctype html>
-<html lang="ko">
-	<head>
-		<meta charset="utf-8">
-		<title>Test For JavaScript</title>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<meta name="description" content="JavaScript Test">
-		<meta name="author" content="sculove. 손찬욱">
+	<title>JavaScript Test</title>
+	<meta name="description" content="JavaScript Test">
+	<meta name="author" content="sculove. 손찬욱">
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="../../reveal.js-3.3.0/css/reveal.css">
+	<link rel="stylesheet" href="../../reveal.js-3.3.0/css/theme/black.css">
+	<link rel="stylesheet" href="../../reveal.js-3.3.0/custom.css">
+	<!-- Theme used for syntax highlighting of code -->
+	<link rel="stylesheet" href="../../reveal.js-3.3.0/lib/css/darkula.css">
+	<script src="../../reveal.js-3.3.0/custom_head.js"></script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+	<section data-background="image/javascript-door.jpg" data-transition="zoom" data-background-transition="zoom">
+		<h1 style="color:#f5da55;text-shadow: 2px 2px #000000;">JavaScript Test</h1>
+		<br>
+		<p>
+			<small>Created by <a style="text-shadow: 1px 1px #fff;" href="http://sculove.pe.kr" >손찬욱</a> / <a style="text-shadow: 1px 1px #fff;" href="https://www.facebook.com/chanuk.son">chanuk.son</a></small>
+		</p>
+	</section>
 
-		<link rel="stylesheet" href="../../revealjs/css/reveal.css">
-		<link rel="stylesheet" href="../../revealjs/css/theme/moon.css" id="theme">
+	<section data-markdown="content.md"
+		data-separator="^\r?\n----------\r?\n$"
+		data-vertical="^=0=0=0\r?\n$"
+		data-separator-notes="^Note:"
+		data-charset="utf-8"
+		data-background-transition="fade">
+    </section>
 
-		<!-- For syntax highlighting -->
-		<link rel="stylesheet" href="../../revealjs/lib/css/zenburn.css">
-		<!-- <link rel="stylesheet" href="../../revealjs/lib/css/monokai-sublime.css"> -->
-
-		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
-		<script>
-			if( window.location.search.match( /print-pdf/gi ) ) {
-				var link = document.createElement( 'link' );
-				link.rel = 'stylesheet';
-				link.type = 'text/css';
-				link.href = '../../revealjs/css/print/pdf.css';
-				document.getElementsByTagName( 'head' )[0].appendChild( link );
-			}
-		</script>
-		<script>
-		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-		  ga('create', 'UA-37362821-4', 'auto');
-		  ga('send', 'pageview');
-
-		</script>
-		<!--[if lt IE 9]>
-		<script src="lib/js/html5shiv.js"></script>
-		<![endif]-->
-		<script src="../../revealjs/lib/js/jquery-1.11.3.js"></script>
-		<style>
-.strong {
-	color: #FF5E99 !important;
-}
-.semi-strong {
-	color : #268bd2 !important;
-}
-.reveal pre code {
-    max-height: 500px;
-    min-width:400px;
-}
-
-ul,ol {
-	margin : 0px !important;
-}
-
-li {
-	margin-top : 10px !important;
-	font-size : 0.8em !important;
-}
-		</style>
-	</head>
-
-	<body>
-
-		<div class="reveal">
-
-			<!-- Any section element inside of this container is displayed as a slide -->
-			<div class="slides">
-				<section data-background="image/javascript-door.jpg" data-transition="zoom" data-background-transition="zoom">
-					<h1 style="color:#f5da55;text-shadow: 2px 2px #000000;">JavaScript Test</h1>
-					<!-- <h3 style="text-shadow: 2px 2px #000000;">ES6은 어떻게 탄생했나?</h3> -->
-					<br>
-					<p>
-						<small>Created by <a style="text-shadow: 1px 1px #fff;" href="http://sculove.pe.kr" >손찬욱</a> / <a style="text-shadow: 1px 1px #fff;" href="https://www.facebook.com/chanuk.son">chanuk.son</a></small>
-					</p>
-				</section>
-				<section>
-					<section data-background="#8c4738">
-						<h3 class="strong">Test는 필요한가?</h3>
-					</section>
-					<section>
-						<h2 class="strong">Test는 정말 필요한가?</h2>
-					</section>
-				</section>
-
-				<section>
-				프로젝트에서, 경력 10년차 프로젝트 구성원이 코드를 수정했다.
-				이를 믿을수 있나?
-
-				프로젝트에서, 새롭게 투입된 경력 10년차 프로젝트 구성원이 코드를 수정했다.
-				이를 믿을수 있나?
-				</section>
-				<section>
-				사람 프로세스를 통해 검증
-				QA나 개발자가 직접적으로 변경 부분에 대해 side-effect를 실제 테스트하여 확인한다.
-				</section>
-				<section>
-				테스트 코드가 있다면,
-				프로젝트에서, 새로운 경력 1년차 프로젝트 구성원이 코드를 수정했다.
-											신입 프로젝트 구성원이 코드를 수정했다.
-				이를 믿을수 있나?
-				</section>
-				<section>
-				* 테스트의 장점
-				  - 빠른 피드백 : 개발과 테스트 사이의 사이클을 줄 일 수 있다.
-				   다양한 입력,출력 환경 구성 후, 재 테스트 해야하는 비용 절감.
-				  - 회기 테스트 : 코드 변경시, 기존 로직을 확인해야 하는 비용 절감.
-				  - 코드의 개선 : 테스트 코드 작성을 통한 코드의 개선 및 사전 버그 찾음.
-				</section>
-				<section>
-				이런 장점이 있음에도 왜? 우리는 테스트 코드를 만들어 내지 못하고 있는가?
-				</section>
-				<section>
-				단연코 시간!
-				서비스 일정은 정해졌지만, 스펙은 계속 늘어나고,
-				늘어나기만 하면 괜찮지만, 다 바꾸기까지하죠.
-				</section>
-				<section>
-				"테스트 코드는 산출물이 아닌 하나의 서비스 이다." 라는 인식의 변화.
-				프로세스의 변화가 필요
-				</section>
-				<section>
-				프로세스의 변화가 필요.
-				- 개발 일정 : 설계 + 구현 + 테스트 코드 작성 => 자동화된 테스트 코드 수행 후 머지.
-				- 테스트 코드
-				  : 유지보수를 위해 읽기가 쉬워야한다.
-				  : 리팩토링이 필요하다.
-				  : ...
-				</section>
-				<section>
-				우선 이러한 마음의 자세가 되었다면 좀더 자세히 이야기해보자. (동기부여)
-				</section>
-
-
-<!-- 				<section>
-				테스트에 대해 잠깐 살펴보자.
-				테스트의 분류.
-				</section>
-				<section>
-				(테스트의 대상에 따라)
-				https://www.sitepoint.com/javascript-testing-unit-functional-integration/
-				- 단위테스트 (unit) :
-				- 시나리오 테스트 (function )
-				- 통합테스트
-				</section> -->
-				<section>
-				모든 상황에서 테스트 코드를 작성해야하는가?
-
-				테스트 코드가 많아진다.
-				== 소스의 코드가 많아진다.
-				== 변경시 비용이 많이 든다.
-				</section>
-				<section>
-				- 중요 로직 (결산과 관련된 부분)
-				- 전체 큰틀이 변경되지 않는 코드 : 솔루션
-				   - 서비스는 오히려 독이 될수 있음.
-				   - 하지만, 서비스에서 변경되지 않는 핵심 로직에 대해서는 테스트가 이익이 될 수 도 있음.
-				- 자주 변경되는 부분은 테스트를 만들게 되면 오히려 독이 될수 있다.
-				</section>
-
-				<section>
-				테스트 코드는 어떻게 짜야하나?
-				</section>
-				<section>
-					좋은 테스트의 조건
-					 - 하나의 테스트는 한가지 기능에 충실한 테스트
-					 - A 테스트는 B 테스트에 영향을 미치면 안된다. 독립된 테스트
-					   => 테스트 전과 후의 상태가 변경되면 안된다.
-					 - 테스트는 여러번 수행해도 같은 결과를 출력해야한다.
-					 - 읽기 쉬운 테스트가 유지보수도 쉽다.
-				</section>
-				<section>
-				테스트는 어떻게 작성하는가?
-				</section>
-				<section>
-				(테스트 구현 스타일에 따라.)
-				1. 애자일 방법론에서는 테스트를 먼저 짜고, 개발을 해라. (X-Driven Development)
-				http://blog.aliencube.org/ko/2014/04/02/differences-between-bdd-and-tdd/
-				- TDD : 테스트 자체에 집중
-				- BDD : TDD와 동일. 비즈니스 요구사항에 집중 (좀더 자연어에 걸맞게)
-				크게 다르지 않다. 말의 차이
-				</section>
-				<section>
-				TDD는 요렇게
-				BDD는 요렇게한다.
-				</section>
-				<section>
-				2. Given/When/Then으로 구성
-					- 테스트 시나리오를 작성
-					- 코드로 옮김
-				</section>
-
-				<section>
-				테스트 코드 작성 방법
-				</section>
-				<section>
-				테스트시 제어하기 힘든 상황이 존재
-				- 시간 (time)
-				- 임의성 (Randomness)
-				- 동시성 (concurrency)
-				- 영속성 (Persistency)
-				- 네트워킹 (Networking)
-				- ...
-
-				제어가 불가능한 요소는 종속성을 제거
-				</section>
-				<section>
-				테스트 기법
-				</section>
-					1. 환경의 제어
-					  - 모듈과 주입기법
-function(global) {
-
-})(window);
-					2. wrapping을 통한 재정의
-					 - settimeout 커스텀해보기.
-
-				</section>
-				<section>
-					Front-End 테스트 환경 적용해보기
-				</section>
-				<section>
-- 테스트 프레임웍크 : mocha, jasmine, qunit
-- assertion : chai, should, expect
-- mockup : sinon
- - timer (timer wrapping)
- - XMLHttpRequest (XMLHttpReqeust wrapping)
-- 테스트 러너 : karma
-- 커버리지 : istanbul
-				</section>
-				<section>
-- E2E 테스트 () === 종단간 테스트 === UI테스트
-				selunium (http://www.seleniumhq.org/) Web Browser Automation
-				  - angular용 protractor
-				  - nightwatch.js
-				phantomjs [headless webkit]
-				  - casperjs
-				</section>
-				<section>
-					<h2>Reference</h2>
-					<ul style="font-size:24px;line-height:35px">
-						<li>
-							JavaScript.next에 대해서<br>
-							<a href="https://blog.outsider.ne.kr/643" target="_new">https://blog.outsider.ne.kr/643</a>
-						</li>
-						<li>
-							ECMAScript<br>
-							<a href="https://en.wikipedia.org/wiki/ECMAScript" target="_new">https://en.wikipedia.org/wiki/ECMAScript</a>
-						</li>
-						<li>
-							ES6시대의 JavaScript<br>
-							<a href="https://gist.github.com/marocchino/841e2ff62f59f420f9d9" target="_new">https://gist.github.com/marocchino/841e2ff62f59f420f9d9</a>
-						</li>
-						<li>
-							Learn ES2015<br>
-							<a href="https://babeljs.io/docs/learn-es2015/" target="_new">https://babeljs.io/docs/learn-es2015/</a>
-						</li>
-						<li>
-							JavaScript History<br>
-							<a href="http://www.slideshare.net/rhio.kim/javascript-history-8390737" target="_new">http://www.slideshare.net/rhio.kim/javascript-history-8390737</a>
-						</li>
-					</ul>
-				</section>
-				<section  data-background="image/beginning.jpg">
-					<h2 style="color:#DE4182">감사합니다.</h2>
-					<br>
-					<h3>BY <a href="http://sculove.pe.kr">손찬욱</a> / <a href="https://www.facebook.com/chanuk.son">chanuk.son</a></h3>
-				</section>
-			</div>
-
-		</div>
-
-		<script src="../../revealjs/lib/js/head.min.js"></script>
-		<script src="../../revealjs/js/reveal.min.js"></script>
-
-		<script>
-			// Full list of configuration options available here:
-			// https://github.com/hakimel/reveal.js#configuration
-			Reveal.initialize({
-				controls: true,
-				progress: true,
-				history: true,
-				center: true,
-				slideNumber : true,
-				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
-
-				// Parallax scrolling
-
-				// Optional libraries used to extend on reveal.js
-				dependencies: [
-					{ src: '../../revealjs/lib/js/classList.js', condition: function() { return !document.body.classList; } },
-					{ src: '../../revealjs/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: '../../revealjs/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: '../../revealjs/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-					{ src: '../../revealjs/plugin/code-focus/code-focus.js', async: true, condition: function() { return !!document.body.classList; }},
-					{ src: '../../revealjs/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } }
-				]
-			});
-
-		</script>
-		<script>
-$("code[contenteditable]").focusout(function(e) {
-	var $el = $(e.target);
-	eval($el.text());
-});
-		</script>
-	</body>
+	<section  data-background="image/beginning.jpg">
+		<h2 style="color:#DE4182">감사합니다.</h2>
+		<br>
+		<h3>BY <a href="http://sculove.pe.kr">손찬욱</a> / <a href="https://www.facebook.com/chanuk.son">chanuk.son</a></h3>
+	</section>
+</div>
+</div>
+<script src="../../reveal.js-3.3.0/lib/js/head.min.js"></script>
+<script src="../../reveal.js-3.3.0/js/reveal.js"></script>
+<script src="../../reveal.js-3.3.0/custom_init.js"></script>
+<script>
+// $("code[contenteditable]").focusout(function(e) {
+// 	var $el = $(e.target);
+// 	eval($el.text());
+// });
+</script>
+</body>
 </html>
-
-
