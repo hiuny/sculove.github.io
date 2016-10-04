@@ -6,18 +6,19 @@
 
 -----
 
+<!-- .slide: data-background="#8c4738" -->
 ## 왜 테스트가 필요할까요?
 
 -----
 
-## 사례 A
+### 사례 A
 <em>경력 10년차 프로젝트 구성원</em>이 코드를 수정했다.
 
 이를 믿을 수 있나?
 
 -----
 
-## 사례 B
+### 사례 B
 <strong>새롭게</strong> 투입된 <strong>경력 10년차</strong> 개발자가 코드를 수정했다.
 
 이를 믿을 수 있나?
@@ -48,19 +49,23 @@ QA나 개발자가 직접적으로 변경 부분에 대해 side-effect를 실제
 
 -----
 
-### 테스트의 장점
+테스트 코드는 
+## 빠른 피드백을 준다.
+<img src="./image/feedback.jpg"/>
+
+-----
+
+<img src="./image/floops_loops.png"/>
+<p>개발(action) -> 테스트 (effect)-> <br>
+<strong>피드백</strong> -> 개발 -> 테스트 -> <strong>피드백 </strong>...</p>
+
+-----
+
+또한, 테스트 코드는
+## 미래를 위한 안전핀을 제공한다.
 <ul>
-  <li>빠른 피드백
-    <p>개발과 테스트 사이의 사이클을 줄 일 수 있다.</p>
-    <p>다양한 입력,출력 환경 구성 후, 재 테스트 해야하는 비용 절감.</p>
-  </li>
-  <li>코드의 개선
-    <p>코드 변경시, 기존 로직을 확인해야 하는 비용 절감.</p>
-    <p>테스트 코드 작성을 통한 코드의 개선 및 사전 버그 찾음</p>
-  </li>
-  <li>회기 테스트
-    <p>버그 내역을 테스트 코드로 만듦으로써 회기 테스트도 진행할수 있다.</p>
-  </li>
+    <li class="fragment"><em>코드 변경</em>도 겁나지 않아요.</li>
+    <li class="fragment"><em>회기 테스트</em>도 순식간에 할수 있어요.</li>
 </ul>
 
 -----
@@ -78,102 +83,299 @@ QA나 개발자가 직접적으로 변경 부분에 대해 side-effect를 실제
 
 -----
 
-# 테스트 코드는 산출물이 아닌 <strong>하나의 서비스</strong>이다.
-라는 인식의 변화.
-# <em>프로세스의 변화가 필요</em>
+## 테스트 코드는 산출물이 아닌<br> <strong>하나의 서비스</strong>이다.
+## <em class="fragment">인식. 프로세스의 변화가 필요</em>
 
 -----
 
-## 프로세스의 변화가 필요.
-### 개발자의 개발 일정 변화
-기존 : 설계 + 구현
+### 관리가자 보는 "개발 끝!의 의미"
+<!-- <img src="./image/developer.jpeg"/> -->
 
-개선 : 설계 + 구현 + 테스트 코드 작성 + 자동화된 테스트 코드 수행 후 머지.
-
------
-
-### 테스트 코드
-- 유지보수를 위해 읽기가 쉬워야한다.
-- 리팩토링이 필요하다.
+설계 + 구현 <strong class="fragment">+ 테스트 코드 작성</strong>
 
 -----
 
-# 우선 이러한 마음의 자세가 되었다면 좀더 자세히 이야기해보자.
+### 개발자가 보는 "테스트 코드의 시각"
+소스와 같이 소중히...
+<ul>
+    <li class="fragment">유지보수를 위해 읽기가 쉬워야한다.</li>
+    <li class="fragment">리팩토링이 필요하다.</li>
+    <li class="fragment">형상관리...</li>
+</ul>
 
 -----
 
-
-테스트에 대한 물음.
-
------
-
-Q1. 모든 상황에서 테스트 코드를 작성해야하는가?
+### 품질관리가 보는 시각
+품질 관리의 시작은 QA 시작부터가 아닌, <br>
+<p class="fragment"><strong>테스트 코드</strong> 부터...</p>
 
 -----
 
-테스트 코드가 많아진다.
-== 소스의 코드가 많아진다.
-== 변경시 비용이 많이 든다.
+# 이러한 마음의 자세가 되었다면...
+좀 더 자세히 이야기해보자.
 
 -----
 
-- 중요 로직 (결산과 관련된 부분)
-- 전체 큰틀이 변경되지 않는 코드 : 솔루션
-   - 서비스는 오히려 독이 될수 있음.
-   - 하지만, 서비스에서 변경되지 않는 핵심 로직에 대해서는 테스트가 이익이 될 수 도 있음.
-- 자주 변경되는 부분은 테스트를 만들게 되면 오히려 독이 될수 있다.
-- 버그가 발생한 상황에 대한 테스트 코드를 만들자.
+## 테스트를 위한 개발 프로세스
 
 -----
 
-Q2. 테스트 코드는 어떻게 짜야하나?
+### 개발 프로세스
+애자일 방법론에서 사용하는 X-Driven Development 방식
+
+- TDD(Test-Driven Development)
+- BDD(Behavior-Driven Development)
+
+<small><em>둘 다 차이가 없음. 단, BDD는 비즈니스 요구사항 중심적. (좀더 자연어에 걸맞게)</em><small>
 
 -----
 
-좋은 테스트의 조건
- - 하나의 테스트는 한가지 기능에 충실한 테스트
- - A 테스트는 B 테스트에 영향을 미치면 안된다. 독립된 테스트
-   => 테스트 전과 후의 상태가 변경되면 안된다.
- - 테스트는 여러번 수행해도 같은 결과를 출력해야한다.
- - 읽기 쉬운 테스트가 유지보수도 쉽다.
+### TDD와 BDD 프로세스
+<img src="./image/bdd.jpg"/>
+<p>테스트 First. 실패 First</p>
+<p class="fragment"><strong>Red - Green - Refactor</strong>의 반복</p>
 
 -----
 
-Q3. 테스트는 어떻게 작성하는가?
+## 테스트 코드 작성해보기
 
 -----
 
-(테스트 구현 스타일에 따라.)
-1. 애자일 방법론에서는 테스트를 먼저 짜고, 개발을 해라. (X-Driven Development)
-http://blog.aliencube.org/ko/2014/04/02/differences-between-bdd-and-tdd/
-- TDD : 테스트 자체에 집중
-- BDD : TDD와 동일. 비즈니스 요구사항에 집중 (좀더 자연어에 걸맞게)
-크게 다르지 않다. 말의 차이
-
-TDD는 요렇게
-BDD는 요렇게한다.
-
------
-
-2. Given/When/Then으로 구성
-	- 테스트 시나리오를 작성
-	- 코드로 옮김
+### 좋은 테스트 코드
+<ul>
+    <li class="fragment">하나의 테스트는 <em>한가지 기능에 충실</em></li>
+    <li class="fragment">A 테스트는 B 테스트에 <em>영향을 미치면 안된다.</em></li>
+    <li class="fragment">테스트 전과 후의 상태가 변경되면 안된다.</li>
+    <li class="fragment">테스트는 여러번 수행해도 <em>같은 결과를 출력</em>해야한다.</li>
+</ul>
+<h4 class="fragment"><strong>Funtional Programming ?</strong></h4>
 
 -----
 
-테스트 코드 작성 방법
+### 테스트 코드 작성 방법
+<ol>
+    <li class="fragment">사용자 요구사항 관점에서 명세를 만든다</li>
+    <li class="fragment"><strong>Given/When/Then 패턴</strong>으로 테스트 시나리오를 작성</li>
+    <li class="fragment">코드로 옮김</li>
+</ol>
 
 -----
 
-테스트시 제어하기 힘든 상황이 존재
-- 시간 (time)
-- 임의성 (Randomness)
-- 동시성 (concurrency)
-- 영속성 (Persistency)
-- 네트워킹 (Networking)
-- ...
+### 1. 명세를 만든다
+사용자 관점의 명세를 만든다.
 
-제어가 불가능한 요소는 종속성을 제거
+<blockquote>
+숫자가 3으로 나누어지면 결과값은 <em>"Fizz"</em><br>
+숫자가 5로 나누어지면 결과값은 <em>"Buzz"</em><br>
+숫자가 3과 5로 나누어지면 결과값은 <em>"FizzBuzz"</em>
+</blockquote>
+
+-----
+
+### 2. Given/When/Then pattern으로 
+### 시나리오 작성
+
+http://martinfowler.com/bliki/GivenWhenThen.html
+
+- Given : 테스트 전의 상태
+- When : 테스트 행위
+- Then : 테스트 결과 검증
+
+-----
+
+### 3. 코드로 옮김
+
+테스트 프레임워크 : <span class="fragment highlight-red">jasmine</span>, qunit, mocha
+
+<small><em>mocha는 별도의 assertion 모듈(chai, should, expect)이 필요함</em></small>
+
+^^^^^
+
+### <strong>RED</strong> 테스트 코드를 만든다.
+Given/When/Then 패턴으로 작성한다.
+
+<pre><code>
+describe("FizzBuzz", function() {
+  it("should return 'Fizz' when the number is divisible by 3", function() {
+      // Given
+      // When
+      // Then
+  });
+})
+</code></pre>
+
+^^^^^
+
+<pre><code>
+describe("FizzBuzz", function() {
+  it("should return 'Fizz' when the number is divisible by 3", function() {
+      // Given
+      var fizzBuzz = new FizzBuzz();
+
+      // When
+      var result = fizzBuzz.call(3);
+      
+      // Then
+      expect(result).toEqual("Fizz");
+  });
+})
+</code></pre>
+
+^^^^^
+
+### <em>Green</em> 테스트를 통과하게 한다.
+코드를 수정한다.
+
+<pre><code>
+function FizzBuzz() {}
+
+FizzBuzz.prototype.call = function(num) {
+    return "Fizz";
+}
+</code></pre>
+
+^^^^^
+
+### <strong>Refactor</strong> 코드를 개선한다.
+
+<pre><code>
+function FizzBuzz() {}
+
+FizzBuzz.prototype.call = function(num) {
+    if (num % 3 === 0) {
+        return "Fizz";
+    }
+}
+</code></pre>
+
+^^^^^
+
+<a href="../../demo/testing/Runner.html">Demo</a>
+
+-----
+
+## 단위테스트는 쉽다?
+
+-----
+
+### 테스트시 제어하기 힘든 상황이 존재
+coupled
+async
+
+Mocking
+ - mothod check : createSpy, createSpyObj
+ - method mocking
+ - 
+....
+<strong class="fragment">제어가 불가능한 요소는 종속성을 제거</strong>
+
+-----
+
+### 자주 사용하는 테스트
+- 비동기 테스트
+- setTimeout 테스트
+- Ajax 테스트
+- DOM 테스트
+
+-----
+
+#### 비동기 테스트
+- 첫번째 파라미터로 done 함수가 전달됨
+```js
+it("should support async", function(done) {
+    // ...
+});
+```
+- 비동기 작업이 완료되었을 경우, done을 호출
+```js
+done();
+```
+
+^^^^^
+
+<pre><code>describe("Asynchronous specs", function() {
+  var value;
+  it("should support async execution of test preparation and expectations", function(<mark>done</mark>) {
+    // Given
+    value = 100;
+    expect(value).toEqual(100);
+
+    // When
+    setTimeout(function() {
+      // Then
+      expect(value).toEqual(101);
+      <mark>done();</mark>
+    },100); // 100ms 대기
+
+    value++;
+  });
+});</code></pre>
+
+-----
+
+#### setTimeout 테스트
+- timer mocking
+```js
+jasmine.clock().install();
+jasmine.clock().uninstall();
+```
+- createSpy로 감시할 함수 생성.
+```js
+timerCallback = jasmine.createSpy();
+```
+- jasmine.clock().tick 메소드로 timer 이동
+```
+jasmine.clock().tick(time);
+```
+
+^^^^^
+
+<pre><code>describe("Manually ticking the Jasmine Clock", function() {
+  var timerCallback;
+  beforeEach(function() {
+    <mark>timerCallback = jasmine.createSpy()</mark>;
+    <mark>jasmine.clock().install();</mark>  // timer mocking start
+  });
+  afterEach(function() {
+    <mark>jasmine.clock().uninstall();</mark>  // timer mocking end
+  });
+
+  it("causes a timeout to be called synchronously", function() {
+    // Given
+    setTimeout(function() {
+      timerCallback();
+    }, 100);
+    expect(timerCallback).not.toHaveBeenCalled();
+    // When
+    <mark>jasmine.clock().tick(101);</mark>
+    // Then
+    expect(timerCallback).toHaveBeenCalled();
+  });
+
+  it("causes an interval to be called synchronously", function() {
+    // Given
+    setInterval(function() {
+      timerCallback();
+    }, 100);
+    expect(timerCallback).not.toHaveBeenCalled();
+
+    // When
+    <mark>jasmine.clock().tick(101);</mark>  // 101
+    // Then
+    expect(timerCallback.calls.count()).toEqual(1);
+
+    // When
+    <mark>jasmine.clock().tick(50);</mark>   // 151
+    // Then
+    expect(timerCallback.calls.count()).toEqual(1);
+
+    // When
+    <mark>jasmine.clock().tick(50);</mark>   // 201
+
+    // Then
+    expect(timerCallback.calls.count()).toEqual(2);
+  });
+});</code></pre>
 
 -----
 
@@ -192,22 +394,47 @@ function(global) {
 
 -----
 
+<!-- .slide: data-background="#8c4738" -->
+## Q1. 모든 상황에서 <br>테스트 코드를 작성해야하는가?
+
+-----
+
+테스트 코드가 많아진다.
+<p class="fragment">== 소스의 코드가 많아진다.</p>
+<p class="fragment">== 변경시 비용이 많이 든다.</p>
+
+<h3 class="fragment"><strong>선별해서 작성하는게 현실적으로 좋다</strong></h3>
+
+-----
+
+### <em>주요 로직</em>의 테스트 코드
+결산 로직, 공통 라이브러리...
+
+-----
+
+### <em>버그가 발생한 상황</em>에 대한 테스트 코드 
+회기 테스트를 위한 테스트 코드 작성
+
+-----
+
+### 전체 큰틀이 변경되지 않는 코드
+
+- 솔루션 or 라이브러리
+- 자주 변경되는 부분의 테스트를 만들게 되면 <strong>오히려 독이 될 수 있다.</strong>
+
+-----
+
+
+
 Front-End 테스트 환경 적용해보기
 
 -----
 
-### 테스트의 분류.
-(테스트의 대상에 따라)
-https://www.sitepoint.com/javascript-testing-unit-functional-integration/
-- 단위테스트 (unit) :
-- 통합테스트 (각 구성요서간의 테스트)
-- 시나리오 테스트 (function )
 
 -----
 
 ## 단위/통합 테스트
-- 테스트 프레임웍크 : mocha, jasmine, qunit
-- assertion : chai, should, expect
+
 - mockup : sinon
  - timer (timer wrapping)
  - XMLHttpRequest (XMLHttpReqeust wrapping)

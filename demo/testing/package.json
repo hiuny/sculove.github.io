@@ -9,8 +9,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^2.5.1",
-    "nightwatch": "^0.8.18"
+    "jasmine": "^2.5.2",
+    "jasmine-ajax": "^3.2.0"
   }
 }
