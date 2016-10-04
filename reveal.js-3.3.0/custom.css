@@ -1,9 +1,15 @@
-strong {
-	color:#FF5E99 !important;
+.red {color:red !important;}
+.green {color:green !important;}
+.grey {color: #807E7E !important;}
+.yellow {color:#e7ad52 !important;}
+.bigsize {
+	font-size:1.5em !important;
 }
 
+strong { color: #FF5E99; }
 em {
-	color: #268bd2 !important;
+	font-weight:bold;
+	color: #268bd2;
 }
 
 blockquote {
@@ -26,6 +32,6 @@ blockquote {
 .reveal h5,
 .reveal h6 {
   color: #eee8d5;
-  /*text-transform: uppercase;*/
+  text-transform: uppercase;
   text-shadow: none;
 }

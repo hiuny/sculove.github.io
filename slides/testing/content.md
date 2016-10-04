@@ -32,7 +32,7 @@ QA나 개발자가 직접적으로 변경 부분에 대해 side-effect를 실제
 
 ### 리소스가 많이 든다.
 
-### <!-- .element: class="fragment" --> <em>QA 담당자의 역량</em>에 의해 테스트 검증 여부가 결정된다.
+### <!-- .element: class="fragment" --> <strong>QA 담당자의 역량</strong>에 의해<br>테스트 검증 여부가 결정된다.
 
 -----
 
@@ -49,7 +49,7 @@ QA나 개발자가 직접적으로 변경 부분에 대해 side-effect를 실제
 
 -----
 
-테스트 코드는 
+테스트 코드는
 ## 빠른 피드백을 준다.
 <img src="./image/feedback.jpg"/>
 
@@ -96,7 +96,7 @@ QA나 개발자가 직접적으로 변경 부분에 대해 side-effect를 실제
 -----
 
 ### 개발자가 보는 "테스트 코드의 시각"
-소스와 같이 소중히...
+<strong class="yellow">소스와 같이 소중히...</strong>
 <ul>
     <li class="fragment">유지보수를 위해 읽기가 쉬워야한다.</li>
     <li class="fragment">리팩토링이 필요하다.</li>
@@ -133,7 +133,7 @@ QA나 개발자가 직접적으로 변경 부분에 대해 side-effect를 실제
 ### TDD와 BDD 프로세스
 <img src="./image/bdd.jpg"/>
 <p>테스트 First. 실패 First</p>
-<p class="fragment"><strong>Red - Green - Refactor</strong>의 반복</p>
+<p class="fragment"><strong class="red">Red</strong> - <strong class="green">Green</strong> - <strong class="grey">Refactor</strong>의 반복</p>
 
 -----
 
@@ -164,15 +164,13 @@ QA나 개발자가 직접적으로 변경 부분에 대해 side-effect를 실제
 ### 1. 명세를 만든다
 사용자 관점의 명세를 만든다.
 
-<blockquote>
-숫자가 3으로 나누어지면 결과값은 <em>"Fizz"</em><br>
+> 숫자가 3으로 나누어지면 결과값은 <em>"Fizz"</em><br>
 숫자가 5로 나누어지면 결과값은 <em>"Buzz"</em><br>
 숫자가 3과 5로 나누어지면 결과값은 <em>"FizzBuzz"</em>
-</blockquote>
 
 -----
 
-### 2. Given/When/Then pattern으로 
+### 2. Given/When/Then pattern으로
 ### 시나리오 작성
 
 http://martinfowler.com/bliki/GivenWhenThen.html
@@ -191,7 +189,28 @@ http://martinfowler.com/bliki/GivenWhenThen.html
 
 ^^^^^
 
-### <strong>RED</strong> 테스트 코드를 만든다.
+### Jasmine Test Framework
+<small><a href="http://jasmine.github.io/">jasmine document</a></small>
+
+<pre><code>describe("the name of test suite", function() {
+  beforeAll(function() {}); // suite 전에 호출
+  afterAll(function() {});	// suite 후에 호출
+  beforeEach(function() {})	// 각각의 spec 전에 호출
+  afterEach(function() {})	// 각각의 spec 후에 호출
+  it("should/contains ... spec1 ", function() {
+  	// except(value).matchers
+  	except(true).toBe(true);
+  	except(true).not.toBe(false);
+  });
+  it("should/contains ... spec2 ", function() {
+	except(true).toEqual(true);
+  })
+  // ...
+});</code></pre>
+
+^^^^^
+
+### <strong class="red">RED</strong> 테스트 코드를 만든다.
 Given/When/Then 패턴으로 작성한다.
 
 <pre><code>
@@ -206,6 +225,7 @@ describe("FizzBuzz", function() {
 
 ^^^^^
 
+테스트 코드를 작성한다.
 <pre><code>
 describe("FizzBuzz", function() {
   it("should return 'Fizz' when the number is divisible by 3", function() {
@@ -214,7 +234,7 @@ describe("FizzBuzz", function() {
 
       // When
       var result = fizzBuzz.call(3);
-      
+
       // Then
       expect(result).toEqual("Fizz");
   });
@@ -223,7 +243,12 @@ describe("FizzBuzz", function() {
 
 ^^^^^
 
-### <em>Green</em> 테스트를 통과하게 한다.
+테스트가 실패 했다.
+<img src="./image/red.png"/>
+
+^^^^^
+
+### <strong class="green">Green</strong> 테스트를 통과하게 한다.
 코드를 수정한다.
 
 <pre><code>
@@ -236,7 +261,13 @@ FizzBuzz.prototype.call = function(num) {
 
 ^^^^^
 
-### <strong>Refactor</strong> 코드를 개선한다.
+테스트가 성공 했다.
+
+<img src="./image/green.png"/>
+
+^^^^^
+
+### <strong class="grey">Refactor</strong> 코드를 개선한다.
 
 <pre><code>
 function FizzBuzz() {}
@@ -250,7 +281,7 @@ FizzBuzz.prototype.call = function(num) {
 
 ^^^^^
 
-<a href="../../demo/testing/Runner.html">Demo</a>
+## <a href="../../demo/testing/Runner.html">Demo</a>
 
 -----
 
@@ -259,27 +290,33 @@ FizzBuzz.prototype.call = function(num) {
 -----
 
 ### 테스트시 제어하기 힘든 상황이 존재
-coupled
+coupled module
 async
 
-Mocking
- - mothod check : createSpy, createSpyObj
+-----
+
+### Jasmine test
+
+-----
+
+### Mocking
+ - method check : createSpy, createSpyObj
  - method mocking
- - 
+ -
 ....
 <strong class="fragment">제어가 불가능한 요소는 종속성을 제거</strong>
 
 -----
 
-### 자주 사용하는 테스트
+### 자주 사용하는 테스트 유형
 - 비동기 테스트
 - setTimeout 테스트
-- Ajax 테스트
-- DOM 테스트
+- DOM 테스트 (jasmine-dom)
+- Ajax 테스트 (jasmine-ajax)
 
 -----
 
-#### 비동기 테스트
+### 비동기 테스트
 - 첫번째 파라미터로 done 함수가 전달됨
 ```js
 it("should support async", function(done) {
@@ -295,25 +332,23 @@ done();
 
 <pre><code>describe("Asynchronous specs", function() {
   var value;
-  it("should support async execution of test preparation and expectations", function(<mark>done</mark>) {
+  it("should support async execution", function(<mark>done</mark>) {
     // Given
     value = 100;
     expect(value).toEqual(100);
-
-    // When
+    // Then
     setTimeout(function() {
-      // Then
       expect(value).toEqual(101);
       <mark>done();</mark>
     },100); // 100ms 대기
-
+    // When
     value++;
   });
 });</code></pre>
 
 -----
 
-#### setTimeout 테스트
+### setTimeout 테스트
 - timer mocking
 ```js
 jasmine.clock().install();
@@ -379,7 +414,21 @@ jasmine.clock().tick(time);
 
 -----
 
-테스트 기법
+### DOM 테스트
+<small><a href="https://github.com/velesin/jasmine-jquery">jasmine-jquery</a></small>
+
+^^^^^
+
+^^^^^
+
+-----
+
+### Ajax 테스트
+<small><a href="https://github.com/jasmine/jasmine-ajax">jasmine-ajax</a></small>
+
+^^^^^
+
+^^^^^
 
 -----
 
@@ -389,55 +438,12 @@ function(global) {
 
 })(window);
 
-2. wrapping을 통한 재정의
- - settimeout 커스텀해보기.
-
 -----
-
-<!-- .slide: data-background="#8c4738" -->
-## Q1. 모든 상황에서 <br>테스트 코드를 작성해야하는가?
-
------
-
-테스트 코드가 많아진다.
-<p class="fragment">== 소스의 코드가 많아진다.</p>
-<p class="fragment">== 변경시 비용이 많이 든다.</p>
-
-<h3 class="fragment"><strong>선별해서 작성하는게 현실적으로 좋다</strong></h3>
-
------
-
-### <em>주요 로직</em>의 테스트 코드
-결산 로직, 공통 라이브러리...
-
------
-
-### <em>버그가 발생한 상황</em>에 대한 테스트 코드 
-회기 테스트를 위한 테스트 코드 작성
-
------
-
-### 전체 큰틀이 변경되지 않는 코드
-
-- 솔루션 or 라이브러리
-- 자주 변경되는 부분의 테스트를 만들게 되면 <strong>오히려 독이 될 수 있다.</strong>
-
------
-
-
 
 Front-End 테스트 환경 적용해보기
 
 -----
 
-
------
-
-## 단위/통합 테스트
-
-- mockup : sinon
- - timer (timer wrapping)
- - XMLHttpRequest (XMLHttpReqeust wrapping)
 - 테스트 러너 : karma
 - 커버리지 : istanbul
 
@@ -454,4 +460,73 @@ phantomjs [headless webkit]
 
 -----
 
-끝
+<!-- .slide: data-background="#8c4738" -->
+## 테스트에 대한 흔한 질문
+
+-----
+
+## Q1. 모든 상황에서 <br>테스트 코드를 작성해야하는가?
+
+-----
+
+테스트 코드가 많아진다.
+<p class="fragment">= 소스의 코드가 많아진다.</p>
+<p class="fragment">= 변경시 비용이 많이 든다.</p>
+
+<h3 class="fragment"><strong>선별해서 작성하는게 현실적으로 좋다</strong></h3>
+
+-----
+
+### <em>주요 로직</em>의 테스트 코드
+결산 로직, 공통 라이브러리...
+
+-----
+
+### <em>버그가 발생한 상황</em>에 대한 테스트 코드
+회기 테스트를 위한 테스트 코드 작성
+
+-----
+
+### 전체 큰틀이 변경되지 않는 코드
+
+- <!-- .element: class="fragment" --><strong class="yellow">솔루션 or 라이브러리</strong>
+- <!-- .element: class="fragment" --> 자주 변경되는 부분의 테스트를 만들게 되면 <strong>오히려 독이 될 수 있다.</strong>
+
+-----
+
+## Q2. 우리의 목표는 테스트 커버리지
+
+-----
+
+
+### 테스트 커버리지가 <strong>100%</strong> 이다.
+신뢰 할 수 있는가?
+
+-----
+
+### 테스트 커버리지는 그냥 <strong class="bigsize">숫자</strong>일뿐.
+
+-----
+
+#### 테스트 커버리지 보다,
+
+<p class="fragment"><strong class="green">X-Driven 방식의 개발 프로세스</strong>가 잘되고 있는지</p>
+<p class="fragment"><strong class="yellow">회기 테스트</strong>가 잘되고 있는지<br> 가 더 중요하다.</p>
+
+
+
+-----
+
+## 정리
+
+<ul>
+	<li class="fragment">왜 테스트가 필요할까요?
+		<blockquote>테스트 코드는 <strong>하나의 서비스</strong>다</blockquote>
+	</li>
+	<li class="fragment">테스트를 위한 개발 프로세스 (TDD,BDD)<br>
+		<strong class="red">Red</strong> - <strong class="green">Green</strong> - <strong class="grey">Refactor</strong>
+	</li>
+	<li class="fragment">테스트 코드 작성 <strong class="yellow">Given-When-Then</strong></li>
+	<li class="fragment">자주 사용하는 테스트 유형</li>
+	<li class="fragment">Front-End 테스트 환경</li>
+</ul>
