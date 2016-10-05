@@ -116,6 +116,7 @@ QA나 개발자가 직접적으로 변경 부분에 대해 side-effect를 실제
 
 -----
 
+<!-- .slide: data-background="#8c4738" -->
 ## 테스트를 위한 개발 프로세스
 
 -----
@@ -137,6 +138,7 @@ QA나 개발자가 직접적으로 변경 부분에 대해 side-effect를 실제
 
 -----
 
+<!-- .slide: data-background="#8c4738" -->
 ## 테스트 코드 작성해보기
 
 -----
@@ -285,61 +287,125 @@ FizzBuzz.prototype.call = function(num) {
 
 -----
 
-## 단위테스트는 쉽다?
+## 테스트는 쉽다?
 
 -----
 
 ### 테스트 하기 어려운 코드
 
-<pre><code>$(document).ready(function(){
+<div style="float:left; width:60%">
+<pre><code>$(document).ready(<mark>function(){</mark>
   var div1 = $('div.one'),
-      itemCount = getItemCount( 'li.item' );
+      itemCount = getItemCount('li.item'),
+      value = <mark>window.scrollTop</mark>;
 
-  div1.on('click',function(){
-    ...
-  });
+  div1.on('click',<mark>function(){ //... }</mark>);
 
-  function getItemCount( selector ){
-    return $( selector ).length;
+  function getItemCount(selector) {
+    return $(selector).length;
   }
-});</code></pre>
+<mark>}</mark>);</code></pre>
+</div>
+<div>
+	<p>closure로 인한 <strong>은닉</strong></p>
+	<p>이벤트 핸들러 <strong>은닉</strong></p>
+	<p><strong class="yellow">외부(전역)</strong> 객체의 사용</p>
+</div>
+-----
 
-<p>$(document).ready() closure</p>
-<p>anonymous 이벤트 핸들러</p>
+### 테스트 하기 좋은 코드
+- <strong class="yellow">객체/함수</strong>의 노출
+- 의존 객체의 주입
 
-^^^^^
+<strong class="fragment">Loosely Coupling. Modular</strong>
+-----
 
 <pre><code>var app = {
-  init : function(){
+  init : function(global){
+  	 <mark>this.value = global.scrollTop</mark>
      div1.on(
-        'click', this.handleDivClick
+        'click', <mark>this.handleDivClick</mark>
      );
-
-     this.itemCount = 
-        this.getItemCount( 'li.item' );
+     this.itemCount = this.getItemCount( 'li.item' );
   },
 
-  getItemCount : function( selector ){
+  <mark>getItemCount</mark> : function( selector ){
     return $( selector ).length;
   },
 
-  handleDivClick : function( e ){
-    //this in here will still be div1
+  <mark>handleDivClick</mark> : function( e ){
+    this.global.scrollTop
   }
 };</code></pre>
 
 -----
 
+### 테스트 하기 좋은 코드는
+### <strong>Test Double</strong>을 사용할 수 있다.
 
+<small>Test double : 테스트시에 실제 객체를 대신 할 수 있는 객체</small>
 
 -----
 
-### Mocking
- - method check : createSpy, createSpyObj
- - method mocking
- -
-....
-<strong class="fragment">제어가 불가능한 요소는 종속성을 제거</strong>
+### Test Double
+
+<img src="./image/doubletest.gif"/>
+- <strong class="green">Spy</strong> : 멤버가 올바르게 호출 되었는지 확인.
+- <strong class="yellow">Stub</strong> : 로직이 없고, 원하는 값만 반환.
+- <strong>Mock Object</strong><br>
+ “어떤 메소드가 호출 될 것이다”라는 행위에 대한 예상들을 예측하여 미리 프로그래밍한 객체
+- <strong class="grey">Fack Object</strong> : 거의 완전한 구현체
+
+-----
+
+### spy 구현하기
+
+^^^^^
+
+spyOn, createSpy, createSpyObj 를 사용
+<pre><code>describe("A spy", function() {
+  it("tracks that the spy was called", function() {
+	// Given
+	var foo = {
+		getBar: function() {
+			return bar;
+		}
+    };
+    <mark>spyOn(foo, "getBar");</mark>
+    // When
+    foo.getBar();
+    // Then
+    expect(foo.getBar).<mark>toHaveBeenCalled();</mark>
+  });
+});</code></pre>
+
+-----
+
+### stub 구현하기
+
+^^^^^
+
+and.returnValue, and.callFack 등을 사용
+<pre><code>describe("A spy, when configured to fake a return valu", function() {
+  it("when called returns the requested value", function() {
+	// Given
+	var foo = {
+		getBar: function() {
+			return bar;
+		}
+    };
+    <mark>spyOn(foo, "getBar").and.returnValue(745);</mark>
+    // When
+    var bar = foo.getBar();
+    // Then
+    expect(bar).toEqual(745);
+  });
+});</code></pre>
+
+-----
+
+<!-- .slide: data-background="#8c4738" -->
+### 실제 어떻게 사용하는지 살펴보자.
 
 -----
 
@@ -508,9 +574,6 @@ xhr.onreadystatechange = function(args) {
   });
 });</code></pre>
 
-
-^^^^^
-
 -----
 
 ### DOM 테스트 <small><a href="https://github.com/velesin/jasmine-jquery">jasmine-jquery</a></small>
@@ -569,7 +632,7 @@ function service_mod = function(global, doc) {
   // ...
 };
 ```
-- 테스트할 부분에 대한 FackObject를 주입한다.
+- 테스트할 부분에 대한 Mock Object를 주입한다.
 
 ```js
 service_mod({
@@ -589,17 +652,17 @@ service_mod({
 
 ^^^^^
 
-<p>테스트에서는 fack객체를 주입하여 테스트 한다.</p>
+<p>테스트에서는 Mock 객체를 주입하여 테스트 한다.</p>
 <pre><code>describe("Using sandbox", function() {
     it ("should return OS type", function() {
         // Given
-        var fakeWindow = {
+        var mockWindow = {
           navigator: {
            userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 9_0 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13A452 Safari Line/5.4.0"
           }
         };
         // When
-        var osTypo = <mark>agent(fakeWindow);</mark>
+        var osTypo = <mark>agent(mockWindow);</mark>
         // Then
         expect(osTypo).toEqual('ios');
     });
@@ -607,23 +670,16 @@ service_mod({
 
 -----
 
-Front-End 테스트 환경 적용해보기
-
+### 그 외 Front-End 테스트 관련 라이브러리
+알고는 있자...
 -----
 
-- 테스트 러너 : karma
-- 커버리지 : istanbul
-
------
-
-## 시나리오 테스트
-
-- E2E 테스트 () === 종단간 테스트 === UI테스트
-selunium (http://www.seleniumhq.org/) Web Browser Automation
-  - angular용 protractor
-  - nightwatch.js
-phantomjs [headless webkit]
-  - casperjs
+- Test Runner : 브라우저별 테스트를 실행하는 역할<br>
+<a href="https://karma-runner.github.io/1.0/index.html" target="_blank">Karma</a>
+- Coverage : 코드 커버리지 리포트<br>
+<a href="http://gotwarlost.github.io/istanbul/" target="_blank">istanbul</a>, <a href="https://github.com/douglasduteil/isparta" target="_blank">isparta</a>
+- E2E Test : 서버와 클라이언트 간의 테스트. 즉, UI테스트
+<a href="http://docs.seleniumhq.org/" target="_blank">Selunium</a>, <a href="http://nightwatchjs.org/" target="_blank">Nightwatch.js</a>, <a href="http://phantomjs.org/" target="_blank">Phantomjs</a>, <a href="http://casperjs.org/" target="_blank">Casperjs</a>
 
 -----
 
@@ -695,5 +751,4 @@ phantomjs [headless webkit]
 	</li>
 	<li class="fragment">테스트 코드 작성 <strong class="yellow">Given-When-Then</strong></li>
 	<li class="fragment">자주 사용하는 테스트 유형</li>
-	<li class="fragment">Front-End 테스트 환경</li>
 </ul>
