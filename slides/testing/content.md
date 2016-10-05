@@ -311,8 +311,9 @@ async
 ### 자주 사용하는 테스트 유형
 - 비동기 테스트
 - setTimeout 테스트
-- DOM 테스트 (jasmine-dom)
 - Ajax 테스트 (jasmine-ajax)
+- DOM 테스트 (jasmine-dom)
+- Global 객체 테스트
 
 -----
 
@@ -357,6 +358,9 @@ jasmine.clock().uninstall();
 - createSpy로 감시할 함수 생성.
 ```js
 timerCallback = jasmine.createSpy();
+setInterval(function() {
+    timerCallback();
+}, 100);
 ```
 - jasmine.clock().tick 메소드로 timer 이동
 ```
@@ -378,7 +382,7 @@ jasmine.clock().tick(time);
   it("causes a timeout to be called synchronously", function() {
     // Given
     setTimeout(function() {
-      timerCallback();
+      <mark>timerCallback();</mark>
     }, 100);
     expect(timerCallback).not.toHaveBeenCalled();
     // When
@@ -390,7 +394,7 @@ jasmine.clock().tick(time);
   it("causes an interval to be called synchronously", function() {
     // Given
     setInterval(function() {
-      timerCallback();
+      <mark>timerCallback();</mark>
     }, 100);
     expect(timerCallback).not.toHaveBeenCalled();
 
@@ -414,29 +418,157 @@ jasmine.clock().tick(time);
 
 -----
 
-### DOM 테스트
-<small><a href="https://github.com/velesin/jasmine-jquery">jasmine-jquery</a></small>
+### Ajax 테스트 <small><a href="https://github.com/jasmine/jasmine-ajax">jasmine-ajax</a></small>
+- ajax mocking
+```js
+jasmine.Ajax.install();
+jasmine.Ajax.uninstall();
+```
+- 특정 url에 대한 결과값을 반환하는 stub 생성
+```js
+jasmine.Ajax.stubRequest('/another/url').andReturn({
+    "responseText": 'immediate response'
+});
+```
+- createSpy로 감시할 함수 생성.
+```js
+done = jasmine.createSpy();
+xhr.onreadystatechange = function(args) {
+    if (this.readyState == this.DONE) {
+      done(this.responseText);
+    }
+};
+```
 
 ^^^^^
+
+<pre><code>describe("mocking ajax", function() {
+  describe("suite wide usage", function() {
+    beforeEach(function() {
+      <mark>jasmine.Ajax.install();</mark>
+    });
+    afterEach(function() {
+      <mark>jasmine.Ajax.uninstall();</mark>
+    });
+    it("allows responses to be setup ahead of time", function () {
+      // Given
+      var doneFn = jasmine.createSpy();
+      <mark>jasmine.Ajax.stubRequest('/another/url').andReturn({</mark>
+        "responseText": 'immediate response'
+      });
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function(args) {
+        if (this.readyState == this.DONE) {
+          <mark>doneFn(this.responseText);</mark>
+        }
+      };
+
+      // When
+      xhr.open("GET", "/another/url");
+      xhr.send();
+
+      // Then
+      expect(doneFn).toHaveBeenCalledWith('immediate response');
+    });
+  });
+});</code></pre>
+
 
 ^^^^^
 
 -----
 
-### Ajax 테스트
-<small><a href="https://github.com/jasmine/jasmine-ajax">jasmine-ajax</a></small>
+### DOM 테스트 <small><a href="https://github.com/velesin/jasmine-jquery">jasmine-jquery</a></small>
+
+- 테스트할 fixtures(HTML)를 설정
+```js
+setFixtures(sandbox());
+loadFixtures("domtest.html");
+```
+- DOM을 컨트롤 한다. (jquery)
+- DOM Matchers를 통해 테스트 한다.
+```js
+expect($('#sandbox'))
+    .not.toHaveClass('TestClass');
+expect('click')
+    .toHaveBeenTriggeredOn('#sandbox');
+```
 
 ^^^^^
 
-^^^^^
+<pre><code>describe("Using sandbox", function() {
+    it ("should remove a class", function() {
+        // Given
+        <mark>setFixtures(sandbox({class: 'TestClass'}));</mark>
+        expect($('#sandbox')).toHaveClass('TestClass');
+
+        // When
+        $('#sandbox').removeClass("TestClass");
+
+        // Then
+        expect($('#sandbox')).not.toHaveClass('TestClass');
+    });
+
+    it ("should invoke the btnShowMessage click event.", function() {
+        // Given
+        <mark>setFixtures(sandbox());</mark>
+        <mark>var spyEvent = spyOnEvent('#sandbox', 'click');</mark>
+
+        // When
+        $('#sandbox').trigger( "click" );
+
+        // Then
+        expect('click').toHaveBeenTriggeredOn('#sandbox');
+        expect(spyEvent).toHaveBeenTriggered();
+    });
+});</code></pre>
 
 -----
 
-1. 환경의 제어
-  - 모듈과 주입기법
-function(global) {
+### Global 객체 테스트
+window, document 테스트
 
-})(window);
+- window, document와 같은 객체를 주입할수 있도록 구성
+```js
+function service_mod = function(global, doc) {
+  // ...
+};
+```
+- 테스트할 부분에 대한 FackObject를 주입한다.
+
+```js
+service_mod({
+  navigator: {
+    userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 9_0 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13A452 Safari Line/5.4.0"
+  }, document
+})
+```
+
+^^^^^
+
+<p>소스는 global 객체를 주입할 수 있게 구성한다.</p>
+<pre><code>var agent = function(global) {
+  return /iPhone|iPad/.test(global.navigator.userAgent) ?
+    "ios" : "android";
+};</code></pre>
+
+^^^^^
+
+<p>테스트에서는 fack객체를 주입하여 테스트 한다.</p>
+<pre><code>describe("Using sandbox", function() {
+    it ("should return OS type", function() {
+        // Given
+        var fakeWindow = {
+          navigator: {
+           userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 9_0 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13A452 Safari Line/5.4.0"
+          }
+        };
+        // When
+        var osTypo = <mark>agent(fakeWindow);</mark>
+        // Then
+        expect(osTypo).toEqual('ios');
+    });
+});</code></pre>
 
 -----
 
