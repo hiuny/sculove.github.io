@@ -318,6 +318,7 @@ FizzBuzz.prototype.call = function(num) {
 - 의존 객체의 주입
 
 <strong class="fragment">Loosely Coupling. Modular</strong>
+
 -----
 
 <pre><code>var app = {
