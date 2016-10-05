@@ -88,17 +88,15 @@
 
 -----
 
-<pre><code data-noescape>var buggyObject = {
+<pre><code>var buggyObject = {
     callAgain: function () {
         <span class="fragment highlight-red" data-fragment-index="2">var ref = this;</span>
         var val = setTimeout(function () {
-            console.log('Called again: '
-                + new Date().toTimeString());
+            console.log('Called again: ' + new Date().toTimeString());
             ref.callAgain();
         }, 1000);
     }
 };
-
 buggyObject.callAgain();
 <mark class="fragment" data-fragment-index="1">buggyObject = null; // buggyObject reference 제거</mark>
 </code></pre>
@@ -106,17 +104,15 @@ buggyObject.callAgain();
 
 -----
 
-<pre><code data-noescape>var buggyObject = {
+<pre><code>var buggyObject = {
     callAgain: function () {
         <mark>function loopFunc() {</mark>
-            console.log('Called again: '
-                + new Date().toTimeString());
+            console.log('Called again: ' + new Date().toTimeString());
             setTimeout(loopFunc, 1000);
         <mark>}</mark>
         <mark>setTimeout(loopFunc, 1000);</mark>
     }
 };
-
 buggyObject.callAgain();
 buggyObject = null; // buggyObject reference 제거
 </code></pre>
