@@ -246,7 +246,7 @@ describe("FizzBuzz", function() {
 ^^^^^
 
 테스트가 실패 했다.
-<img src="./image/red.png"/>
+<img src="./image/red.PNG"/>
 
 ^^^^^
 
@@ -265,7 +265,7 @@ FizzBuzz.prototype.call = function(num) {
 
 테스트가 성공 했다.
 
-<img src="./image/green.png"/>
+<img src="./image/green.PNG"/>
 
 ^^^^^
 
