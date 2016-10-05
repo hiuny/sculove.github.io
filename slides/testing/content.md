@@ -289,13 +289,48 @@ FizzBuzz.prototype.call = function(num) {
 
 -----
 
-### 테스트시 제어하기 힘든 상황이 존재
-coupled module
-async
+### 테스트 하기 어려운 코드
+
+<pre><code>$(document).ready(function(){
+  var div1 = $('div.one'),
+      itemCount = getItemCount( 'li.item' );
+
+  div1.on('click',function(){
+    ...
+  });
+
+  function getItemCount( selector ){
+    return $( selector ).length;
+  }
+});</code></pre>
+
+<p>$(document).ready() closure</p>
+<p>anonymous 이벤트 핸들러</p>
+
+^^^^^
+
+<pre><code>var app = {
+  init : function(){
+     div1.on(
+        'click', this.handleDivClick
+     );
+
+     this.itemCount = 
+        this.getItemCount( 'li.item' );
+  },
+
+  getItemCount : function( selector ){
+    return $( selector ).length;
+  },
+
+  handleDivClick : function( e ){
+    //this in here will still be div1
+  }
+};</code></pre>
 
 -----
 
-### Jasmine test
+
 
 -----
 
