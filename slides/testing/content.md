@@ -311,6 +311,7 @@ FizzBuzz.prototype.call = function(num) {
 	<p>이벤트 핸들러 <strong>은닉</strong></p>
 	<p><strong class="yellow">외부(전역)</strong> 객체의 사용</p>
 </div>
+
 -----
 
 ### 테스트 하기 좋은 코드
@@ -674,6 +675,7 @@ service_mod({
 
 ### 그 외 Front-End 테스트 관련 라이브러리
 알고는 있자...
+
 -----
 
 - Test Runner : 브라우저별 테스트를 실행하는 역할<br>
