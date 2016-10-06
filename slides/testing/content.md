@@ -314,8 +314,9 @@ FizzBuzz.prototype.call = function(num) {
 -----
 
 ### 테스트 하기 좋은 코드
-- <strong class="yellow">객체/함수</strong>의 노출
+- <strong class="yellow">객체/함수/메소드</strong>의 노출
 - 의존 객체의 주입
+- 속성의 노출은 지양
 
 <strong class="fragment">Loosely Coupling. Modular</strong>
 
