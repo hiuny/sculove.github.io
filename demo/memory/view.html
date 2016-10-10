@@ -12,11 +12,32 @@
     <li>Summary View
       <ul>
         <li>Summary - All Object</li>
-        <li>Summary - Object allocated between Snapshot1 and Snapshot2</li>
+        <li>Summary - Object allocated between Snapshot1 and Snapshot2
+          <ol>
+            <li>Select Snapshot2</li>
+            <li>Select Object allocated between Snapshot1 and Snapshot2</li>
+            <li>check Item, Array</li>
+          </ol>
+        </li>
       </ul>
     </li>
-    <li>Comparison View - Snapshot1/2</li>
+    <li>Comparison View - Snapshot1/2
+      <ol>
+        <li>Select Snapshot2</li>
+        <li>Select Snapshot1</li>
+        <li>check Item, Array</li>
+      </ol>
+    </li>
   </ul>
+
+  <ol>
+    <li>Open new secret window</li>
+    <li>Open DevTools</li>
+    <li>Select Profile Tab</li>
+    <li>Take Heap Snapshot => Take Snapshot</li>
+    <li>Push The init Button</li>
+    <li>Take Heap Snapshot => Take Snapshot</li>
+  </ol>
   <button onclick="init()">init()</button>
   <pre><code>function Item(x)
 {

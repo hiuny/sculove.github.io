@@ -161,15 +161,15 @@ Closure는 실용적인 프로그래밍을 할수 있습니다.
 </div>
 <div style="float:left;width:50%">
     <pre><code data-noescape>var select = document.querySelector;
-var <span class="fragment highlight-red" data-fragment-index="1">treeRef</span> = select("#tree");
-var <span class="fragment highlight-blue" data-fragment-index="2">leafRef</span> = select("#leaf");
+var <span class="fragment highlight-red" data-fragment-index="2">treeRef</span> = select("#tree");
+var <span class="fragment highlight-blue" data-fragment-index="3">leafRef</span> = select("#leaf");
 var body = select("body");
 
-<mark>body.removeChild(treeRef);</mark>
+<mark class="fragment" data-fragment-index="1">body.removeChild(treeRef);</mark>
 
-<mark class="fragment" data-fragment-index="1">treeRef = null;</mark>
+<mark class="fragment" data-fragment-index="2">treeRef = null;</mark>
 
-<mark class="fragment" data-fragment-index="2">leafRef = null;</mark>
+<mark class="fragment" data-fragment-index="3">leafRef = null;</mark>
 </code></pre>
 </div>
 <div style="clear:both">
@@ -182,6 +182,8 @@ var body = select("body");
 ### Event listeners
 
 -----
+
+노트를 만드는 예제
 
 <pre><code data-noescape>var Area = document.getElementById('area');
 function addNote(index) {
