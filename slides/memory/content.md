@@ -14,6 +14,8 @@
     </li>
 </ul>
 
+<strong class="fragment">성능 문제와 같은데?</strong>
+
 -----
 
 ## 왜 Memory leak은 발생하는가?
@@ -415,8 +417,8 @@ addNote(1); removeNote(1);
 -----
 
 ### Record Allocation Timeline
-<p><strong>Memory leak</strong> 확인시 용이</p>
-<a href="../../demo/memory/grow.html" target="_blank">Grow DEMO</a>
+<p><strong>Memory leak</strong> 확인시 용이<small><a href="../../demo/memory/grow.html" target="_blank">Grow DEMO</a></small></p>
+
 <img src="images/allocation_timeline.png"/>
 <small><span style="color:white; background-color:blue">파란색바</span> 메모리 할당.</small>&nbsp;&nbsp;&nbsp;
 <small><span style="color:white; background-color:grey">회색바</span> 메모리 해지.</small>
@@ -424,12 +426,13 @@ addNote(1); removeNote(1);
 -----
 
 ### Record Allocation Profile
-<p><strong>함수별 메모리 사용량</strong> 파악시 용이</p>
-<a href="../../demo/memory/grow.html" target="_blank">Grow DEMO</a>
+<p><strong>함수별 메모리 사용량</strong> 파악시 용이 <small><a href="../../demo/memory/grow.html" target="_blank">Grow DEMO</a></small></p>
 <img src="images/allocation_profile.png"/>
 <small><img style="margin:0px;" src="images/focus.png"/> 선택된 함수 중심으로 보기</small>&nbsp;&nbsp;
 <small><img style="margin:0px;" src="images/hidden.png"/> 선택된 함수 숨기기</small>&nbsp;&nbsp;
 <small><img style="margin:0px;" src="images/restore.png"/> 초기화하기</small>
+
+<!-- .element: class="fragment" --> <strong>Tip.</strong> anonymous 함수가 아닌 함수명을 지정한다.
 
 -----
 
@@ -440,6 +443,10 @@ addNote(1); removeNote(1);
     <li class="fragment">CHROME DEVTOOLS를 이용한
 MEMORY LEAK 분석하기</li>
 </ul>
+
+-----
+
+<img src="./images/bab.jpg"/>
 
 -----
 

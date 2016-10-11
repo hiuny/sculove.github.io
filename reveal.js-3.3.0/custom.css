@@ -32,6 +32,7 @@ blockquote {
 .reveal h5,
 .reveal h6 {
   color: #eee8d5;
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
+  text-transform: none !important;
   text-shadow: none;
 }
