@@ -352,7 +352,7 @@ addNote(1); removeNote(1);
 
 ### 그 전에 알아야할 메모리 관련 용어
 
-^^^^^
+-----
 
 #### Shallow Size 와 Retained Size
 <ul>
@@ -368,7 +368,7 @@ addNote(1); removeNote(1);
 <p class="fragment"><strong>Shallow Size는 작지만, Retained Size가 굉장히 많다면?</strong></p>
 <p class="fragment">Memory leak을 의심하라</p>
 
-^^^^^
+-----
 
 #### Distance
 <p>GC root로 부터의 Retaining Path</p>
@@ -379,31 +379,31 @@ addNote(1); removeNote(1);
 
 ### Profile의 View 타입
 
-^^^^^
+-----
 
 #### Summary View
 <p><em>constructor 그룹별</em>로 보여주는 뷰</p>
 <img src="images/summary.png"/>
 
-^^^^^
+-----
 
 #### Comparison View
 <p>constructor 그룹별로 보여주고,<br><em>2개의 Snapshot의 차이를 표시</em>해주는 뷰</p>
 <img src="images/comparison.png"/>
 
-^^^^^
+-----
 
 #### Containment View
 <p>JS Heap 메모리의 <em>Object 구조</em>를 보여주는 뷰</p>
 <img src="images/containment.png"/>
 
-^^^^^
+-----
 
 #### Statistics View
 <p>메모리 사용량을 <em>파이 차트</em>로 보여주는 뷰</p>
 <img src="images/statistics.png"/>
 
-^^^^^
+-----
 
 #### DEMO
 <div>
