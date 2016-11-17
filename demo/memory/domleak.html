@@ -26,13 +26,11 @@
 var doms = [];
 var wrapper = document.getElementById('nodes');
 function createAndRemoveNodes() {
-    var frag = document.createDocumentFragment();
     for (var i=100, div; i > 0; i--) {
       div = document.createElement('div');
       doms.push(div);
-      frag.appendChild(div);
+      wrapper.appendChild(div);
     }
-    wrapper.appendChild(frag);
     while (wrapper.firstChild) {
         wrapper.removeChild(wrapper.firstChild);
     }
@@ -49,12 +47,15 @@ function grow() {
     console.info("1초 간격으로 running");
     createAndRemoveNodes();
     setTimeout(grow, 1000);
+  } else {
+    console.info("release");
   }
 }
 
 function stop() {
   console.info("stop...");
   running = false;
+
 }</code></pre>
   <div id="nodes" style="display:none"></div>
 
@@ -64,13 +65,11 @@ var running = true;
 var doms = [];
 var wrapper = document.getElementById('nodes');
 function createAndRemoveNodes() {
-    var frag = document.createDocumentFragment();
     for (var i=100, div; i > 0; i--) {
       div = document.createElement('div');
       doms.push(div);
-      frag.appendChild(div);
+      wrapper.appendChild(div);
     }
-    wrapper.appendChild(frag);
     while (wrapper.firstChild) {
         wrapper.removeChild(wrapper.firstChild);
     }
@@ -87,12 +86,15 @@ function grow() {
 		console.info("1초 간격으로 running");
     createAndRemoveNodes();
     setTimeout(grow, 1000);
-	}
+	} else {
+    console.info("release");
+  }
 }
 
 function stop() {
 	console.info("stop...");
 	running = false;
+
 }
 </script>
 </body>

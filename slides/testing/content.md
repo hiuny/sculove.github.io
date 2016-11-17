@@ -189,7 +189,7 @@ http://martinfowler.com/bliki/GivenWhenThen.html
 
 <small><em>mocha는 별도의 assertion 모듈(chai, should, expect)이 필요함</em></small>
 
-^^^^^
+-----
 
 ### Jasmine Test Framework
 <small><a href="http://jasmine.github.io/">jasmine document</a></small>
@@ -210,7 +210,7 @@ http://martinfowler.com/bliki/GivenWhenThen.html
   // ...
 });</code></pre>
 
-^^^^^
+-----
 
 ### <strong class="red">RED</strong> 테스트 코드를 만든다.
 Given/When/Then 패턴으로 작성한다.
@@ -225,7 +225,7 @@ describe("FizzBuzz", function() {
 })
 </code></pre>
 
-^^^^^
+-----
 
 테스트 코드를 작성한다.
 <pre><code>
@@ -243,12 +243,12 @@ describe("FizzBuzz", function() {
 })
 </code></pre>
 
-^^^^^
+-----
 
 테스트가 실패 했다.
 <img src="./image/red.PNG"/>
 
-^^^^^
+-----
 
 ### <strong class="green">Green</strong> 테스트를 통과하게 한다.
 코드를 수정한다.
@@ -261,13 +261,13 @@ FizzBuzz.prototype.call = function(num) {
 }
 </code></pre>
 
-^^^^^
+-----
 
 테스트가 성공 했다.
 
 <img src="./image/green.PNG"/>
 
-^^^^^
+-----
 
 ### <strong class="grey">Refactor</strong> 코드를 개선한다.
 
@@ -281,7 +281,7 @@ FizzBuzz.prototype.call = function(num) {
 }
 </code></pre>
 
-^^^^^
+-----
 
 ## <a href="../../demo/testing/Runner.html">Demo</a>
 
@@ -311,11 +311,13 @@ FizzBuzz.prototype.call = function(num) {
 	<p>이벤트 핸들러 <strong>은닉</strong></p>
 	<p><strong class="yellow">외부(전역)</strong> 객체의 사용</p>
 </div>
+
 -----
 
 ### 테스트 하기 좋은 코드
-- <strong class="yellow">객체/함수</strong>의 노출
+- <strong class="yellow">객체/함수/메소드</strong>의 노출
 - 의존 객체의 주입
+- 속성의 노출은 지양
 
 <strong class="fragment">Loosely Coupling. Modular</strong>
 
@@ -361,7 +363,7 @@ FizzBuzz.prototype.call = function(num) {
 
 ### spy 구현하기
 
-^^^^^
+-----
 
 spyOn, createSpy, createSpyObj 를 사용
 <pre><code>describe("A spy", function() {
@@ -384,7 +386,7 @@ spyOn, createSpy, createSpyObj 를 사용
 
 ### stub 구현하기
 
-^^^^^
+-----
 
 and.returnValue, and.callFack 등을 사용
 <pre><code>describe("A spy, when configured to fake a return valu", function() {
@@ -431,7 +433,7 @@ it("should support async", function(done) {
 done();
 ```
 
-^^^^^
+-----
 
 <pre><code>describe("Asynchronous specs", function() {
   var value;
@@ -469,7 +471,7 @@ setInterval(function() {
 jasmine.clock().tick(time);
 ```
 
-^^^^^
+-----
 
 <pre><code>describe("Manually ticking the Jasmine Clock", function() {
   var timerCallback;
@@ -542,7 +544,7 @@ xhr.onreadystatechange = function(args) {
 };
 ```
 
-^^^^^
+-----
 
 <pre><code>describe("mocking ajax", function() {
   describe("suite wide usage", function() {
@@ -593,7 +595,7 @@ expect('click')
     .toHaveBeenTriggeredOn('#sandbox');
 ```
 
-^^^^^
+-----
 
 <pre><code>describe("Using sandbox", function() {
     it ("should remove a class", function() {
@@ -643,7 +645,7 @@ service_mod({
 })
 ```
 
-^^^^^
+-----
 
 <p>소스는 global 객체를 주입할 수 있게 구성한다.</p>
 <pre><code>var agent = function(global) {
@@ -651,7 +653,7 @@ service_mod({
     "ios" : "android";
 };</code></pre>
 
-^^^^^
+-----
 
 <p>테스트에서는 Mock 객체를 주입하여 테스트 한다.</p>
 <pre><code>describe("Using sandbox", function() {
@@ -673,6 +675,7 @@ service_mod({
 
 ### 그 외 Front-End 테스트 관련 라이브러리
 알고는 있자...
+
 -----
 
 - Test Runner : 브라우저별 테스트를 실행하는 역할<br>
