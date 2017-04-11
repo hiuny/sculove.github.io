@@ -4,8 +4,6 @@
 
 아내와 아들 그리고 딸 밖에 모르는 남편인 "직장인 개발자"
 
-![](./image/family.jpg) <!-- .element: style="width:300px" -->
-
 ## [손찬욱](http://sculove.github.io)
 
 -----
