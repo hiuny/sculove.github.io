@@ -207,8 +207,7 @@ console.log(total);
   "es2015": "./@angular/core.js",
 }
 ```
-<small><a href="https://webpack.js.org/guides/author-libraries/#final-steps">Webpack2's module</a></small>
-<small><a href="https://github.com/rollup/rollup/wiki/pkg.module">Rollup's module</a></small>
+<small><a href="https://webpack.js.org/guides/author-libraries/#final-steps">Webpack2's module</a>, <a href="https://github.com/rollup/rollup/wiki/pkg.module">Rollup's module</a></small>
 
 -----
 
