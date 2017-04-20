@@ -110,28 +110,32 @@ import { transition, animate } from '@angular/animations';
 
 -----
 
-### 2. Package의 변화
+### 2. Package Bundle의 변화
 __Flat ES Modules__ (Flat ESM/FESM) 로 변경
 
 
 ```js
 // module1
-const module1 = 10;
-export default {module1};
+const a = 10;
+const b = 20;
+const module1 = a + b;
+export {module1};
 ```
 
 ```js
 // module2
-const module2 = 10;
-export default {module2};
+const a = 20;
+const b = 30;
+const module2 = a + b;
+export {module2};
 ```
 
 ```js
 // index.js
-import module1 from "./module1";
-import module2 from "./module2";
-
+import {module1} from "./module1";
+import {module2} from "./module2";
 const total = module1 + module2;
+console.log(total);
 ```
 
 -----
@@ -142,13 +146,17 @@ const total = module1 + module2;
 ```
 // module1.js
 (function(module, export, require) {
-    var module1 = 10;
-    export["a"] = { module1: module1 };
+    const a = 10;
+    const b = 20;
+    const module1 = a + b;
+    export.d(export, "a", function() { return module1; });
 }),
 // module2.js
 (function(module, export, require) {
-    var module2 = 20;
-    export["a"] = { module2: module2 };
+    const a = 20;
+    const b = 30;
+    const module2 = a + b;
+    export.d(export, "a", function() { return module2; });
 }),
 // index.js
 (function(module, export, require) {
@@ -164,26 +172,43 @@ const total = module1 + module2;
 -----
 
 #### Single Scope (Flat ESM/FESM)
-- hoisting 비용
 
 ```
-(function () {
-    // module1.js
-    var module1 = 10;
-    // ...
+// module1
+const a = 10;
+const b = 20;
+const module1 = a + b;
 
-    // module2.js
-    var module2 = 20;
-    // ...
-    
-    // index1.js
-    var total = module1 + module2;
-});
+// module2
+const a$1 = 20;
+const b$1 = 30;
+const module2 = a$1 + b$1;
+
+// index.js
+const total = module1 + module2;
+console.log(total);
 ```
 
 -----
 
 ![](./image/fesm.png)  <!-- .element: style="height:600px" -->
+
+-----
+
+#### __Experimental ES2015 Builds__ 제공
+- "es2015", "module" property
+
+```js
+// package.json
+{
+  "name": "@angular/core",
+  "main": "./bundles/core.umd.js",
+  "module": "./@angular/core.es5.js",
+  "es2015": "./@angular/core.js",
+}
+```
+<small><a href="https://webpack.js.org/guides/author-libraries/#final-steps">Webpack2's module</a></small>
+<small><a href="https://github.com/rollup/rollup/wiki/pkg.module">Rollup's module</a></small>
 
 -----
 
