@@ -415,7 +415,7 @@ this.init(null, (this.renderer.directRenderer ? null : [
 -----
 
 - <span class="yellow">View_[Component]_Host_0, ...</span> 생성
- - viewDef를 반환
+ - viewDef의 반환값(Object)를 반환
 
 ```js
 function View_DefaultCommentComponent_Host_0(l) {
@@ -431,7 +431,7 @@ function View_DefaultCommentComponent_Host_0(l) {
 -----
 
 - <span class="yellow">View_[Component]_0, ...</span> 생성
- - viewDef를 반환
+ - viewDef의 반환값(Object)를 반환
 
 ```js
 function View_DefaultCommentComponent_0(l) {
@@ -472,16 +472,18 @@ function View_DefaultCommentComponent_0(l) {
 
 -----
 
+### viewDef
+- elementDef, textDef, derectiveDef, ...을 포함하는 구조
+
 ```js
 function viewDef(
     flags: ViewFlags, 
     nodes: NodeDef[], 
     updateDirectives?: ViewUpdateFn,
     updateRenderer?: ViewUpdateFn) {
-        return { ... };
-    }
+    return { ... };
+}
 ```
-
 **뷰의 정보를 받아 Object를 반환하는 함수**
 
 -----
@@ -533,7 +535,7 @@ else 문법 추가...
 -----
 
 ## Angular에 지속적인 관심을...
-## 더불어 Angular Meetup도... <!-- .element: class="fragment" -->
+<h3 class="fragment"> 더불어 <span class="yellow">Angular Meetup</span>도... </h3>
 
 
 
