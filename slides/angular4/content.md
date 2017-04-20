@@ -473,7 +473,7 @@ function View_DefaultCommentComponent_0(l) {
 -----
 
 ### viewDef
-- elementDef, textDef, derectiveDef, ...을 포함하는 구조
+- elementDef, textDef, directiveDef, anchorDef, ...을 포함
 
 ```js
 function viewDef(
