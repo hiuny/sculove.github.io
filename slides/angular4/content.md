@@ -99,6 +99,7 @@ import { transition, animate } from '@angular/animations';
 
 -----
 
+Angular2 대비 Angular4 용량 비교 (vender)
 
 <small style="float:right">단위 : byte</small>
 
@@ -106,7 +107,7 @@ import { transition, animate } from '@angular/animations';
 |----|----|
 |Angular 2.3.1|2,885,955|359,705|
 |Angular 4.0.2|2,137,116|320,847|
-|개선율|**35.0%**|**12.1%**|
+|용량 감소|**35% 용량감소**|**12.1% 용량 감소**|
 
 -----
 
@@ -530,14 +531,15 @@ function viewDef(
 
 -----
 
-<small style="float:right">단위 : byte</small>
+Angular2 대비 Angular4 용량 비교 (서비스)
 
+<small style="float:right">단위 : byte</small>
 
 |버전|main.bundle.js|main.bundle.min.js|
 |----|----|
 |Angular 2.3.1|134,302|45,566|
 |Angular 4.0.2|90,671|23,131|
-|개선율|**48.1%**|**97.0%**|
+|용량 감소|**48.1% 용량감소**|**49.2% 용량 감소**|
 
 -----
 
