@@ -555,11 +555,3 @@ function viewDef(
 
 else 문법 추가...
 용량 감소. Performance 향상...
-
------
-
-## Angular에 지속적인 관심을...
-<h3 class="fragment"> 더불어 <span class="yellow">Angular Meetup</span>도... </h3>
-
-
-
