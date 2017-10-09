@@ -9,44 +9,77 @@
 
 -----
 
-### 비동기 처리 RxJS말고 다른거 많자너
-- Callback
-- Promise
-- Generator
+### 비동기 처리. RxJS말고 다른거 많자너
+- Callback  <!-- .element: class="fragment" --> 
+- Promise <!-- .element: class="fragment" --> 
+- Generator <!-- .element: class="fragment" --> 
 - Async/Await <!-- .element: class="fragment yellow" --> 
 
------
-
-# RxJS가 왜 필요한지 다시 한번 생각해보자.
-
-- Trend Java9 Reactive
-난 트랜드에 뒤쳐질수 없어.
-
-- 정말 필요한거야?
-
+<br>
+<h2 class="fragment">심지어 <strong>표준</strong>인데</h2>
+<h4 class="fragment">물론. RxJS도 <strong class="grey">표준...</strong><span class="fragment">에 건의 중</span></h4>
 
 -----
 
-<!-- .slide:data-background="#000000" -->
+<!-- .slide: data-background="#000000" -->
 어려운 용어도 많아서 쓰기도 어려운데.
 ![](./image/wordcloud.png)
 
 -----
 
-# RxJS가 담당하는 영역
-
-- 비동기 처리 X
-
-- "안정적인 데이터 플로우를 처리하는 라이브러리"
+# 왜? RxJS를 써야하나?
 
 -----
 
-이게 무슨말이냐면?
+## Reactive
+
+![Java9](./image/java9.jpg)
+<br>
+![spring5](./image/spring5.png)
 
 -----
 
-어플리케이션의 동작 방식 === 상태머신
-상태머신은 입력, 로직, 출력
+## Functional
+
+![funtion](./image/fn.jpg)
+
+-----
+
+![](./image/no.jpg)
+
+<div><strong class="bigsize">본질</strong>은 그게 아니다.</div>
+
+-----
+
+### RxJS가 담당하는 영역
+
+## 비동기 처리 <!-- .element: class="yellow" -->
+## 데이터 전파 <!-- .element: class="fragment yellow" -->
+## 데이터 처리 <!-- .element: class="fragment yellow" -->
+
+
+-----
+
+# RxJS는 
+<h2 class="fragment"><strong class="yellow">일관된 방식</strong>으로</h1>
+<h2 class="fragment"><strong class="green">안전</strong>하게</h1>
+<h2 class="fragment"><strong>데이터 흐름</strong>을</h1>
+<h2 class="fragment"><strong class="blue">처리</strong>하는</h1>
+## 라이브러리 이다.
+
+-----
+
+## 이게 무슨말이냐면?
+
+![](./image/express.jpg)
+
+-----
+
+#### 모든 어플리케이션은 
+## 궁극적으로 __상태머신__이다.
+
+![](./image/state.png)
+
 
 -----
 
@@ -91,12 +124,12 @@ Subscription
 Subject
 Scheduler
 
-----
+-----
 
 하지만 4대 천왕만 알면 된다.
 다른거는 심화과정임
 
-----
+-----
 
 실제 RxJS는 다음과 같이 정의해.
 
@@ -114,8 +147,9 @@ RxJS 써야겠어요? 안써야겠어요?
 
 -----
 
-코딩 잘하면 안써도 되요
-철학을 이해하고 쓰면 많은 것을 도와줍니다.
+코딩 잘하면 안써도 되요 
+
+하지만, 철학을 이해하고 쓰면 많은 것을 도와줍니다.
 
 -----
 
