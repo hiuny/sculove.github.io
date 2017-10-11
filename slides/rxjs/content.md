@@ -83,9 +83,177 @@
 
 -----
 
-입력은 동기나 비동기로 나와 어떻게 해야겠니?
-Observable
-[하나의 방식으로 처리하자. - 인터페이스의 단일화]
+#### 개발자가 처리하는 
+## <strong>입력값(Input)</strong>은 어떤 것들이 있는가?  
+<br>
+<h5 class="fragment"><strong class="green bigsize">배열 데이터</strong>도 입력값으로</h5>
+<h5 class="fragment"><strong class="green bigsize">함수 반환값 </strong>도 입력값으로</h5>
+<h5 class="fragment"><strong class="yellow bigsize">키보드를 누르는 것</strong>도 입력값으로</h5>
+<h5 class="fragment"><strong class="yellow bigsize">마우스를 움직이는 것</strong>도 입력값으로</h5>
+<h5 class="fragment"><strong class="blue bigsize">원격지의 데이터</strong>도 입력값으로</h5>
+<h5 class="fragment"><strong class="blue bigsize">DB 데이터</strong>도 입력값으로</h5>
+<h4 class="fragment">...</h4>
+
+-----
+
+## 개발자의 고민 중 하나
+
+어떤 것은 <strong class="yellow">동기 (Synchronous)</strong>  
+어떤 것은 <strong>비동기 (Asynchronous)</strong>
+
+<p class="fragment">
+어떤 것은 <strong class="yellow">함수 호출(Call)</strong>  
+어떤 것은 <strong >이벤트(Event)</strong>  
+어떤 것은 <strong class="grey">Callback</strong>  
+어떤 것은 <strong class="green">Promise</strong>
+</p>
+
+<h3 class="fragment blue">각각에 따라 처리해야한다.</h3>
+
+-----
+
+<div class="data-container">
+  <div style="float:left; margin-right:100px">배열 데이터를 처리하는 경우</div>
+  <div class="data back-yellow fragment">arr[0]</div>
+  <div class="data back-yellow fragment">arr[1]</div>
+  <div class="data back-yellow fragment">arr[2]</div>
+</div>
+<br>
+<div class="data-container">
+  <div style="float:left; margin-right:100px">함수를 호출한 경우</div>
+  <div class="data back-grey fragment">call</div>
+  <div class="data back-grey fragment">call</div>
+  <div class="data back-grey fragment">call</div>
+</div>
+<br>
+<div class="data-container">
+  <div style="float:left; margin-right:100px">마우스를 클릭하는 경우</div>
+  <div class="data fragment" style="margin-right:50px">click</div>
+  <div class="data fragment" style="margin-right:100px">click</div>
+  <div class="data fragment">click</div>
+</div>
+<br>
+<div class="data-container">
+  <div style="float:left; margin-right:100px">Ajax를 호출한 경우</div>
+  <div class="data back-blue fragment" style="width:150px;margin-right:100px">request</div>
+  <div class="data back-blue fragment" style="width:150px">response</div>
+</div>
+
+-----
+
+
+<div class="data-container">
+  <div style="float:left; margin-right:100px">배열 데이터를 처리하는 경우</div>
+  
+  <div class="yellow" style="float:left">[</div>
+  <div class="data back-yellow">arr[0]</div>
+  <div class="yellow" style="float:left">,</div>
+  <div class="data back-yellow">arr[1]</div>
+  <div class="yellow" style="float:left">,</div>
+  <div class="data back-yellow">arr[2]</div>
+  <div class="yellow" style="float:left">]</div>
+</div>
+<br>
+<div class="data-container">
+  <div style="float:left; margin-right:100px">함수를 호출한 경우</div>
+  <div class="grey" style="float:left">[</div>
+  <div class="data back-grey ">call</div>
+  <div class="grey" style="float:left">,</div>
+  <div class="data back-grey ">call</div>
+  <div class="grey" style="float:left">,</div>
+  <div class="data back-grey ">call</div>
+  <div class="grey" style="float:left">]</div>
+</div>
+<br>
+<div class="data-container">
+  <div style="float:left; margin-right:100px">마우스를 클릭하는 경우</div>
+  <div style="color:red; float:left">[</div>
+  <div class="data " style="margin-right:50px">click</div>
+  <div style="color:red; float:left">,</div>
+  <div class="data " style="margin-right:100px">click</div>
+  <div style="color:red; float:left">,</div>
+  <div class="data ">click</div>
+  <div style="color:red; float:left">]</div>
+</div>
+<br>
+<div class="data-container">
+  <div style="float:left; margin-right:100px">Ajax를 호출한 경우</div>
+  <div class="blue" style="float:left">[</div>
+  <div class="data back-blue " style="width:150px;margin-right:100px">request</div>
+  <div class="blue" style="float:left">,</div>
+  <div class="data back-blue " style="width:150px">response</div>
+  <div class="blue" style="float:left">]</div>
+</div>
+<br><br>
+<div>
+  <div class="arrow"></div>
+  <strong class="bigsize">TIME</strong>
+</div>
+<br>
+<h3 class="fragment"> 시간축 관점에서 결국 <strong class="bigsize yellow">동기 === 비동기</strong></h3>
+
+
+-----
+
+<img src="./image/rxjs_logo.png" width="200px">
+
+## 하나의 방식으로 처리하자. 
+## <strong class="yellow">인터페이스의 단일화</strong>
+
+-----
+
+## Observable
+
+시간을 인덱스로 둔 컬렉션
+
+<div class="data-container">
+  <div style="color:blue; float:left">[&nbsp;</div>
+  <div class="data back-blue " style="margin-right:10px">data</div>
+  <div style="color:blue; float:left">,</div>
+  <div class="data back-blue " style="margin-right:10px">data</div>
+  <div style="color:blue; float:left">,</div>
+  <div class="data back-blue " style="margin-right:10px">data</div>
+  <div style="color:blue; float:left">,</div>
+  <div class="data back-blue " style="margin-right:10px">data</div>
+  <div style="color:blue; float:left">,</div>
+  <div class="data back-blue  " style="margin-right:10px">data</div>
+  <div style="color:blue; float:left">,</div>
+  <div class="data back-blue  " style="margin-right:10px">data</div>
+  <div style="color:blue; float:left">,</div>
+  <div class="data back-blue ">data</div>
+  <div style="color:blue; float:left">&nbsp;]</div>
+</div>
+<br><br>
+<div>
+  <div class="arrow"></div>
+  <strong class="bigsize">TIME</strong>
+</div>
+
+-----
+
+## 개발자의 고민 중 하나
+
+<p style="text-decoration:line-through">
+어떤 것은 <strong class="yellow">동기 (Synchronous)</strong>  
+어떤 것은 <strong>비동기 (Asynchronous)</strong>  
+어떤 것은 <strong class="yellow">함수 호출(Call)</strong>  
+어떤 것은 <strong >이벤트(Event)</strong>  
+어떤 것은 <strong class="grey">Callback</strong>  
+어떤 것은 <strong class="green">Promise</strong>
+</p>
+
+<h3 class="fragment blue">모두 Observable로 처리한다</h3>
+
+-----
+
+
+#### 모든 어플리케이션은 
+<h2 class="fragment red">궁극적으로 __상태머신__이다.</h2>
+<div class="fragment">
+<h2>궁극적으로 __상태머신의 집합__이다.</h2>
+
+![](./image/multi_state.png)
+</div>
 
 -----
 
