@@ -305,19 +305,209 @@ Subject의 <strong class="blue">변경사항</strong>이 생기면 <strong>자�
 
 -----
 
-로직은 어떻니?
-가장 문제되는게 조건문, 반복문. 흐름을 따라가야해
-그리고 로직에서 외부 상태를 변경하는게 문제야.
-이게 바로 immutable이 중요한거야.
-사이드 이펙트라는 거지
-즉, 순수함수를 써라는 거지.
-
-이게 왜 중요하냐면 동시성 작업이 작렬이지.
+## 데이터를 받은 후에는 뭐하니?
+데이터를 받은 후에 받은 데이터를 가공한다.
 
 -----
 
-RxJS에서는 이런거 별생각 안하고도 쓰게 해줌.
-공부만 한다면...
+![](./image/exlogic.png)
+
+-----
+
+#### 1. Ajax로 데이터를 받음.
+
+<pre><code data-trim data-noescape>
+const xhr = new XMLHttpRequest();
+xhr.onreadystatechange = function() {
+    if(xhr.readyState == 4 && xhr.status == 200) {
+	const jsonData = JSON.parse(xhr.responseText);
+        document.getElementById("users").innerHTML = 
+          <mark>process(jsonData);</mark>
+    }
+};
+xhr.open("GET", "https://swapi.co/api/people/?format=json");
+xhr.send();
+</code></pre>
+
+-----
+
+#### 2. 데이터를 가공함
+process 함수
+
+```
+// 데이터를 처리하는 함수
+function process(people) {
+    const html = [];
+    for (const user of people.results) {
+        if (/male|female/.test(user.gender)) {
+	    let broca;
+	    let bmi;
+            if (user.gender == "male") {
+		broca = (user.height - 100 * 0.9).toFixed(2);
+		bmi = (user.height / 100 * user.height / 100 * 22).toFixed(2);
+	    } else {
+		broca = (user.height - 100 * 0.9).toFixed(2);
+		bmi = (user.height / 100 * user.height / 100 * 21).toFixed(2);
+	    }
+	    const obesityUsingBroca = ((user.mass - broca) / broca * 100).toFixed(2);
+	    const obesityUsingBmi = ((user.mass - bmi) / bmi * 100).toFixed(2);
+			
+	    html.push(`<li class='card'>
+			  <dl>
+			      <dt>${user.name} <i class="fa fa-${user.gender}"></i></dt>
+			      <dd><span>키 : </span><span>${user.height} cm</span></dd>
+			      <dd><span>몸무게: </span><span>${user.mass} kg</span></dd>
+			      <dd><span>BROCA 표준체중 : </span><span>${broca} kg</span></dd>
+			      <dd><span>BROCA 비만도 : ${obesityUsingBroca}</span></dd>
+			      <dd><span>BMI 표준체중 : </span><span>${bmi} kg</span></dd>
+			      <dd><span>BMI 비만도 : ${obesityUsingBmi}</span></dd>
+			  </dl>
+		      </li>`);
+        }
+    }
+    return html.join("");
+}
+```
+
+-----
+
+## 개발자의 고민 중 하나
+
+조건문, 반복문 덩어리로 구성됨
+
+```js
+if (A) {
+  // 이럴 경우에는..
+  for(let i = 0; i <len; i++) {
+    // 실제 로직A는 여기서...
+  }
+} else {
+  // 저럴 경우에는
+  for(let i = 0; i <len; i++) {
+    // 실제 로직B는 여기서...
+    // 여기도 if문이...
+    if (B) {
+      // ...
+    }
+  }
+  // ...
+}
+```
+
+-----
+
+<strong class="yellow bigsize">조건문</strong>은 <strong>코드의 흐름</strong>을 분리하고  
+<strong class="yellow bigsize">반복문</strong>은 <strong>코드의 가독성</strong>을 떨어뜨림.
+
+![](./image/logic.png)
+
+주관심사인 비즈니스 로직은 코드에 파묻힘
+
+-----
+
+<img src="./image/rxjs_logo.png" width="200px">
+
+### <strong>고차함수</strong>를 제공한다.
+
+-----
+
+filter, map, reduce, ... 와 같은 고차함수의 operator를 제공
+
+```js
+Rx.Observable
+  .ajax("https://swapi.co/api/people/?format=json")
+	.filter(user => /male|female/.test(user.gender))
+	.map(user => Object.assign(
+			user,
+			logic(user.height, user.mass, user.gender)
+	))
+	.reduce((acc, user) => {
+			acc.push(makeHtml(user));
+			return acc;
+	}, [])
+	.subscribe(v => {
+			document.getElementById("users").innerHTML = v;
+  });
+```
+
+-----
+
+## 개발자의 고민 중 하나
+
+내가 실행한 로직이 <strong class="yellow bigsize">나의 의도와 상관없게</strong>  
+외부에 <strong>영향을 미친다면?</strong>
+
+<p class="blue">Side Effect</p>
+
+-----
+
+
+## Side effect
+
+> 함수에 드러나지 않은 입력값을 <strong class="yellow">부원인(Side Cause)</strong>라고 하고 이로 인해 발생한 결과를 <strong>부작용(Side Effect)</strong>
+
+<pre><code data-trim data-noescape>
+function getCurrentValue(value) {
+    return processAt(value, <mark>new Date()</mark>);
+}
+</code></pre>
+
+<pre><code data-trim data-noescape>
+function get(objectValue) {
+    <mark>objectValue.newProp = "바꿨지롱 모르겠지?";</mark>
+    // bla bla
+    return objectValue;
+}
+</code></pre>
+
+-----
+
+모든 입력값을 명시적으로 나타낸다.
+
+```js 
+function getCurrentValue(value, time) {
+    return processAt(value, time);
+}
+```
+
+Immutable 데이터를 사용한다.
+```js 
+function get(objectValue) {
+    const obj = Object.assign({}, objectValue);
+    obj.newProp = "바꿨으면 Immutable 데이터로 바꾸라";
+    return obj;
+}
+```
+
+
+-----
+
+
+## Funtional Programming
+
+함수형 프로그래밍은 자료 처리를 수학적 함수의 계산으로 취급하고 <strong class="yellow bigsize">상태 변경과 가변 데이터를 피하려는</strong> 프로그래밍 패러다임의 하나이다.
+
+<small>출처 : <a href="https://en.wikipedia.org/wiki/Functional_programming">https://en.wikipedia.org/wiki/Functional_programming</a></small>
+
+-----
+
+Functional Programming은 
+<strong class="bigsize">순수함수</strong>를 지향한다.
+ - 같은 입력이 주어지면, 항상 같은 출력을 반환한다.
+ - 부작용(side-effect)을 발생시키지 않는다.
+ - 외부의 Mutable한 데이터에 의존하지 않는다.
+
+-----
+
+<img src="./image/rxjs_logo.png" width="200px">
+
+### 함수형 프로그래밍의 <strong>순수함수</strong>를 지향 한다.
+
+-----
+
+Observable 자체가 Immutable.
+
+![](./image/linked-observable.png)
 
 -----
 
