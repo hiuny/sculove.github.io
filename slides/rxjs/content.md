@@ -17,7 +17,7 @@
 
 <br>
 <h2 class="fragment">심지어 <strong>표준</strong>인데</h2>
-<h4 class="fragment">물론. RxJS도 <strong class="grey">표준...</strong><span class="fragment">에 건의 중</span></h4>
+<h4 class="fragment">물론. RxJS도 <strong class="grey">표준...</strong><span class="fragment">에 제안 중</span></h4>
 
 -----
 
@@ -257,9 +257,51 @@
 
 -----
 
-이 입력은 또 다른 상태머신으로 부터 전달되자너
-바로 전달되어야해 (PUSH)
-[상태 전파가 문제] - reactive programming
+
+## 개발자의 고민 중 하나
+<strong class="yellow bigsize">의존관계가 있는 상태머신</strong>에게  
+변경된 상태 정보를 <strong class="bigsize">어떻게 전달하지?</strong>
+
+-----
+
+## Reactive Programming
+
+데이터 흐름과 상태 변화 전파에 중점을 둔 프로그램 패러다임이다.  사용되는 프로그래밍 언어에서 데이터 흐름을 쉽게 표현할 수 있어야하며 기본 실행 모델이 변경 사항을 <strong class="yellow bigsize">데이터 흐름</strong>을 통해 <strong class="bigsize">자동으로 전파한다</strong>는 것을 의미한다.
+
+<small>출처 : <a href="https://en.wikipedia.org/wiki/Reactive_programming">https://en.wikipedia.org/wiki/Reactive_programming</a></small>
+
+-----
+
+## 이미 우리는 알고 있었다.
+Observer pattern
+
+
+-----
+
+## Observer Pattern
+
+![](./image/observerpattern.png)
+
+Subject의 <strong class="blue">변경사항</strong>이 생기면 <strong>자동</strong>으로  
+<strong  class="yellow">Observer의 update를 호출한다.</strong> <strong class="yellow">(Loosely Coupling)</strong>
+
+-----
+
+
+<img src="./image/rxjs_logo.png" width="200px">
+
+## Observer Pattern을 적용하자
+### <strong class="yellow">상태 자동전파</strong>
+### <strong class="yellow">Loosely Coupling</strong>
+
+
+-----
+
+## 개선된 Observer Pattern 
+
+![](./image/rxpattern.png)
+
+<strong class="blue">next, error, complete</strong>의 3가지 상태를 전달받음
 
 -----
 
