@@ -1,6 +1,8 @@
 
 ## RxJS 왜 쓰나요?
 
+
+<!-- .slide:data-background="#000000" -->
 ![](./image/angular_rxjs.png)
 
 -----
@@ -10,8 +12,8 @@
 -----
 
 ### 비동기 처리. RxJS말고 다른거 많자너
-- Callback  <!-- .element: class="fragment" --> 
-- Promise <!-- .element: class="fragment" --> 
+- Callback  
+- Promise 
 - Generator <!-- .element: class="fragment" --> 
 - Async/Await <!-- .element: class="fragment yellow" --> 
 
@@ -85,14 +87,19 @@
 
 #### 개발자가 처리하는 
 ## <strong>입력값(Input)</strong>은 어떤 것들이 있는가?  
-<br>
-<h5 class="fragment"><strong class="green bigsize">배열 데이터</strong>도 입력값으로</h5>
-<h5 class="fragment"><strong class="green bigsize">함수 반환값 </strong>도 입력값으로</h5>
-<h5 class="fragment"><strong class="yellow bigsize">키보드를 누르는 것</strong>도 입력값으로</h5>
-<h5 class="fragment"><strong class="yellow bigsize">마우스를 움직이는 것</strong>도 입력값으로</h5>
-<h5 class="fragment"><strong class="blue bigsize">원격지의 데이터</strong>도 입력값으로</h5>
-<h5 class="fragment"><strong class="blue bigsize">DB 데이터</strong>도 입력값으로</h5>
-<h4 class="fragment">...</h4>
+<p class="fragment">
+  <strong class="green ">배열 데이터</strong>도 입력값으로  
+  <strong class="green ">함수 반환값 </strong>도 입력값으로
+</p>
+<p class="fragment">
+  <strong class="yellow ">키보드를 누르는 것</strong>도 입력값으로  
+  <strong class="yellow ">마우스를 움직이는 것</strong>도 입력값으로
+</p>
+<p class="fragment">
+  <strong class="blue ">원격지의 데이터</strong>도 입력값으로  
+  <strong class="blue ">DB 데이터</strong>도 입력값으로
+</p>
+<p class="fragment">...</p>
 
 -----
 
@@ -306,7 +313,7 @@ Subject의 <strong class="blue">변경사항</strong>이 생기면 <strong>자�
 -----
 
 ## 데이터를 받은 후에는 뭐하니?
-데이터를 받은 후에 받은 데이터를 가공한다.
+데이터를 받은 후에 받은 데이터를 <strong class="bigsize">가공</strong>한다.
 
 -----
 
@@ -334,7 +341,7 @@ xhr.send();
 #### 2. 데이터를 가공함
 process 함수
 
-```
+```js
 // 데이터를 처리하는 함수
 function process(people) {
     const html = [];
@@ -411,15 +418,28 @@ if (A) {
 
 -----
 
+### 고차함수 (High Order Function)
+
+다른 함수를 인자로 받거나 그 결과로 함수를 반환하는 함수. 
+
+> 
+고차 함수는 변경되는 주요 부분을 함수로 제공함으로서  
+<strong class="yellow bigsize">동일한 패턴 내에 존재하는 문제</strong>를 손쉽게 해결할 수 있는 고급 프로그래밍 기법이다.
+
+<small>출처: <a href="https://en.wikipedia.org/wiki/Higher-order_function">https://en.wikipedia.org/wiki/Higher-order_function</a></small>
+
+
+-----
+
 filter, map, reduce, ... 와 같은 고차함수의 operator를 제공
 
-```js
+<pre><code data-trim data-noescape>
 Rx.Observable
   .ajax("https://swapi.co/api/people/?format=json")
 	.filter(user => /male|female/.test(user.gender))
 	.map(user => Object.assign(
 			user,
-			logic(user.height, user.mass, user.gender)
+			<mark>logic(user.height, user.mass, user.gender)</mark>
 	))
 	.reduce((acc, user) => {
 			acc.push(makeHtml(user));
@@ -428,7 +448,7 @@ Rx.Observable
 	.subscribe(v => {
 			document.getElementById("users").innerHTML = v;
   });
-```
+</code></pre>
 
 -----
 
@@ -460,6 +480,8 @@ function get(objectValue) {
 }
 </code></pre>
 
+## <strong class="blue">호출 할때마다 달라</strong>
+
 -----
 
 모든 입력값을 명시적으로 나타낸다.
@@ -474,7 +496,7 @@ Immutable 데이터를 사용한다.
 ```js 
 function get(objectValue) {
     const obj = Object.assign({}, objectValue);
-    obj.newProp = "바꿨으면 Immutable 데이터로 바꾸라";
+    obj.newProp = "바꿨으면 데이터 객체의 레퍼런스를 바꾸야지";
     return obj;
 }
 ```
@@ -493,7 +515,7 @@ function get(objectValue) {
 
 Functional Programming은 
 <strong class="bigsize">순수함수</strong>를 지향한다.
- - 같은 입력이 주어지면, 항상 같은 출력을 반환한다.
+ - <strong class="bigsize yellow">같은 입력</strong>이 주어지면, 항상 <strong class="bigsize yellow">같은 출력</strong>을 반환한다.
  - 부작용(side-effect)을 발생시키지 않는다.
  - 외부의 Mutable한 데이터에 의존하지 않는다.
 
@@ -511,54 +533,92 @@ Observable 자체가 Immutable.
 
 -----
 
-알아보자 RxJS
+<!-- .slide:data-background="#e7ad52" -->
+# 맛만 보자
+
+<img src="./image/rxjs_logo.png" width="200px">
 
 -----
 
 RxJS에서는 다루는 중요 개념은 다음과 같다.
 
-Observable
-Operator
-Observer
-Subscription
-Subject
-Scheduler
+- Observable
+- Operator
+- Observer
+- Subscription
+- <strong class="grey">Subject</strong>
+- <strong class="grey">Scheduler</strong>
+
+<p class="fragment">하지만 <strong class="bigsize yellow">4대 천왕</strong>만 알면 된다.  
+다른거는 <strong>심화과정</stong>
+</p>
 
 -----
 
-하지만 4대 천왕만 알면 된다.
-다른거는 심화과정임
+### RxJS 개발 방법
+
+#### 1. 데이터 소스를 Observable로 생성
+![](./image/observable_detail.png)
 
 -----
 
-실제 RxJS는 다음과 같이 정의해.
+#### 2. Observable의 operator를 사용
+ - 데이터를 변경하거나 추출한다.
+ - 여러 개의 Observable을 하나의 Observable로 합침
+ - 하나의 Observable을 여러 개의 Observable로 만듬
 
-첫째. 데이터 소스를 Observable로 변경한다.
-둘째. Observable의 operator를 통해 데이터를 변경하거나 추출한다.
-또는 여러 개의 Observable을 하나의 Observable로 합치거나 하나의 Observable을 여러 개의 Observable로 만든다.
-셋째. 원하는 데이터를 받아 처리하는 Observer를 만든다.
-넷째. Observable의 subscribe를 통해 Observer를 등록한다.
-다섯째. Observable 구독을 정지하고 자원을 해지한다.
+![](./image/operator_detail.png)
 
 -----
 
-다시 질문드립니다.
-RxJS 써야겠어요? 안써야겠어요?
+#### 3. 원하는 데이터를 받아 처리하는 Observer를 만든다.
+
+```js
+const observer = {
+ next: x => console.log("Observer가 Observable로부터 받은 데이터: " + x),
+ error: err => console.error("Observer가 Observable로부터 받은 에러 데이터: " + err),
+ complete: () => console.log("Observer가 Observable로부터 종료 되었다는 알림을 받은 경우"),
+};
+```
 
 -----
 
-코딩 잘하면 안써도 되요 
+#### 4. Observable의 subscribe를 통해 Observer를 등록한다.
 
-하지만, 철학을 이해하고 쓰면 많은 것을 도와줍니다.
-
------
-
-여기에서 이야기한 자세한 설명은 다음 사이트에서 보실수 있습니다.
-
-
-github.com/sculove/rxjs-book
-sculove.github.com
+![](./image/subscription_detail.png)
 
 -----
 
+#### 5. <strong class="grey">Observable 구독을 정지하고 자원을 해지한다.</strong>
+
+```js
+subscription.unsubscribe();
+```
+
+-----
+
+![](./image/rxjs-structure1.png)
+
+-----
+
+## 다시 질문드립니다.
+
+## <strong class="yellow">RxJS 써야겠어요? 안써야겠어요?</strong>
+
+-----
+
+## 코딩 잘하면 안써도 되요 
+
+하지만, 
+## 철학을 이해하고 쓰면  
+## 많은 것을 도와줍니다.
+
+-----
+
+여기에서 이야기한 자세한 설명은  
+다음 사이트에서 보실수 있습니다.
+
+
+<a href="https://github.com/sculove/rxjs-book">https://github.com/sculove/rxjs-book</a>
+<a href="https://sculove.github.com">https://sculove.github.com</a>
 
