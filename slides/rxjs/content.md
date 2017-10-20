@@ -1,5 +1,5 @@
 
-## RxJS 왜 쓰나요?
+## Deview2016. RxJS 왜 쓰나요?
 
 
 <!-- .slide:data-background="#000000" -->
@@ -14,7 +14,7 @@
 ### 비동기 처리. RxJS말고 다른거 많자너
 - Callback  
 - Promise 
-- Generator <!-- .element: class="fragment" --> 
+- Generator
 - Async/Await <!-- .element: class="fragment yellow" --> 
 
 <br>
@@ -404,11 +404,10 @@ if (A) {
 -----
 
 <strong class="yellow bigsize">조건문</strong>은 <strong>코드의 흐름</strong>을 분리하고  
-<strong class="yellow bigsize">반복문</strong>은 <strong>코드의 가독성</strong>을 떨어뜨림.
+<strong class="yellow bigsize">반복문</strong>은 <strong>코드의 가독성</strong>을 떨어뜨림.  
+주관심사인 비즈니스 로직은 <strong class="yellow bigsize">코드에 파묻힘</strong>
 
 ![](./image/logic.png)
-
-주관심사인 비즈니스 로직은 코드에 파묻힘
 
 -----
 
@@ -563,9 +562,7 @@ RxJS에서는 다루는 중요 개념은 다음과 같다.
 -----
 
 #### 2. Observable의 operator를 사용
- - 데이터를 변경하거나 추출한다.
- - 여러 개의 Observable을 하나의 Observable로 합침
- - 하나의 Observable을 여러 개의 Observable로 만듬
+데이터를 <strong class="bigsize yellow">변경. 추출. 합침. 분리</strong>
 
 ![](./image/operator_detail.png)
 
@@ -602,6 +599,15 @@ subscription.unsubscribe();
 
 -----
 
+# RxJS는 
+<h2 class="fragment"><strong class="yellow">일관된 방식</strong>으로</h1>
+<h2 class="fragment"><strong class="green">안전</strong>하게</h1>
+<h2 class="fragment"><strong>데이터 흐름</strong>을</h1>
+<h2 class="fragment"><strong class="blue">처리</strong>하는</h1>
+## 라이브러리 이다.
+
+-----
+
 ## 다시 질문드립니다.
 
 ## <strong class="yellow">RxJS 써야겠어요? 안써야겠어요?</strong>
@@ -611,6 +617,9 @@ subscription.unsubscribe();
 ## 코딩 잘하면 안써도 되요 
 
 하지만, 
+
+-----
+
 ## 철학을 이해하고 쓰면  
 ## 많은 것을 도와줍니다.
 
