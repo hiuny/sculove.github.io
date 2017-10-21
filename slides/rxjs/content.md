@@ -313,7 +313,7 @@ Subject의 <strong class="blue">변경사항</strong>이 생기면 <strong>자�
 -----
 
 ## 데이터를 받은 후에는 뭐하니?
-데이터를 받은 후에 받은 데이터를 <strong class="bigsize">가공</strong>한다.
+<p class="fragment">데이터를 받은 후에 받은 데이터를 <strong class="bigsize">가공</strong>한다.</p>
 
 -----
 
